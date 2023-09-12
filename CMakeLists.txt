@@ -17,5 +17,5 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_executable(main ${SOURCE_EXE})
 add_executable(test ${TEST_EXE})
 
-target_link_libraries(main box_cap ${GTEST_LIBRARIES})
+target_link_libraries(main box_cap)
 target_link_libraries(test box_cap ${GTEST_LIBRARIES})
