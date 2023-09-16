@@ -1,11 +1,12 @@
 #include <iostream>
 #include "box_cap.h"
 
+int box_size = 16;
 
 int main() {
     unsigned int l, w, h;
     std::cout << "Enter length, width and height of room:\n";
     std::cin >> l >> w >> h;
     
-    std::cout << box_capacity(l, w, h) << '\n';
+    std::cout << box_capacity(l, w, h, box_size) << '\n';
 }

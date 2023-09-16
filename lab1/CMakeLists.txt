@@ -6,9 +6,9 @@ add_compile_options(-pedantic -Wall)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(TEST_EXE lab1/test.cpp)
-set(SOURCE_EXE lab1/main.cpp)
-set(SOURCE_LIB lab1/box_cap.cpp)
+set(TEST_EXE tests/test.cpp)
+set(SOURCE_EXE src/main.cpp)
+set(SOURCE_LIB src/box_cap.cpp)
 
 find_package(GTest REQUIRED)
 add_library(box_cap STATIC ${SOURCE_LIB})
