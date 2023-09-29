@@ -17,7 +17,7 @@ class Money {
         // Money substraction(const Money& other);
 
         bool equal(const Money& other);
-        // bool greater(Money& other);
+        bool greater(const Money& other);
         // bool less(Money& other);
 
 
@@ -30,6 +30,7 @@ class Money {
         unsigned char *_array;
         bool _positive;
 
+        bool _greater(const Money& res, const Money& other);
         void _add(Money& res, Money& other);
         // void _substraction(Money& res, Money& other);
 

@@ -144,14 +144,52 @@ bool Money::equal(const Money& other) {
 }
 
 
-// bool Money::greater(const Money& other) {
+bool Money::greater(const Money& other) {
 
-// }
+    if(_positive and other._positive) {
+        return _greater(*this, other);
+    } else if(!_positive and !other._positive) {
+        return !_greater(*this, other);
+    } else if(_positive and !other._positive) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
 
 
-// bool Money::less(const Money& other) {
+bool Money::_greater(const Money& res, const Money& other) {
+    size_t _add_idx_other;
+    size_t _add_idx;
 
-// }
+    if(_size == other._size) {
+        _add_idx = 0;
+        _add_idx_other = 0;
+    } else if((other._size - _size == 1 and other._array[0] == itoc(0))) {
+        _add_idx_other = 1;
+        _add_idx = 0;
+    } else if ((_size - other._size == 1 and _array[0] == itoc(0))) {
+        _add_idx_other = 0;
+        _add_idx = 1;
+    } else {
+        return false;
+    }
+    size_t i = 0;
+    while(i < _size) {
+        if(_array[i + _add_idx] < other._array[i + _add_idx_other]) {
+            return false;
+        } else if(_array[i + _add_idx] > other._array[i + _add_idx_other]) {
+            return true;
+        } 
+        ++i;
+    }
+    return false;
+}
+
+bool Money::less(const Money& other) {
+    
+}
 
 
 std::ostream &Money::print(std::ostream& os) {
