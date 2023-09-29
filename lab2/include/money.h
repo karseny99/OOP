@@ -13,8 +13,8 @@ class Money {
         Money(const Money& other);
         Money(Money&& other) noexcept;   
 
-        Money add(Money& other);
-        // Money substraction(const Money& other);
+        Money add(const Money& other);
+        Money substract(const Money& other);
 
         bool equal(const Money& other);
         bool greater(const Money& other);
@@ -26,13 +26,13 @@ class Money {
         virtual ~Money() noexcept;
 
     private:
-        size_t _size;
+        int _size;
         unsigned char *_array;
         bool _positive;
 
         bool _greater(const Money& res, const Money& other);
-        void _add(Money& res, Money& other);
-        // void _substraction(Money& res, Money& other);
+        void _add(Money& res, const Money& other);
+        void _substract(Money& res, const Money& other);
 
         int ctoi(char c);
         char itoc(int n);

@@ -1,6 +1,8 @@
 
 #include "../include/money.h"
 
+const int BASE = 10;
+
 
 int Money::ctoi(char c) {
     return c - '0';
@@ -18,7 +20,7 @@ Money::Money() : _size(0), _array{nullptr} {
 
 Money::Money(const std::initializer_list<unsigned char> &t) {
     std::cout << "Initializer list constructor" << std::endl;
-    if('0' <= *t.begin() and *t.begin() <= '9') {
+    if('0' <= *t.begin() and *t.begin() <= itoc(BASE - 1)) {
         _size = t.size() + 1;
         _positive = true;
     } else {
@@ -41,7 +43,7 @@ Money::Money(const std::initializer_list<unsigned char> &t) {
 
 Money::Money(const std::string &t) {
     std::cout << "Copy string constructor" << std::endl;
-    if('0' <= t[0] and t[0] <= '9') {
+    if('0' <= t[0] and t[0] <= itoc(BASE - 1)) {
         _size = t.size() + 1;
         _positive = true;
     } else {
@@ -78,7 +80,8 @@ Money::Money(Money&& other) noexcept {
     other._array = nullptr;
 }
 
-Money Money::add(Money& other) {
+
+Money Money::add(const Money& other) {
     Money res;
 
     if(_positive == other._positive) {
@@ -86,12 +89,14 @@ Money Money::add(Money& other) {
         return res;
     }
 
-    return res;
+    // add negative to positive should treat substraction function 
 
+
+    return res;
 }
 
 
-void Money::_add(Money& res, Money& other) {
+void Money::_add(Money& res, const Money& other) {
 
     res._size = std::max(_size, other._size) + 1;
     res._array = new unsigned char[res._size];
@@ -104,21 +109,70 @@ void Money::_add(Money& res, Money& other) {
     int limit = std::min(_size, other._size);
     for(int i{0}; i < limit; ++i) {
         
-        cur_sum = (ctoi(_array[_size - i - 1]) + ctoi(other._array[other._size - i - 1]) + shift_sum) % 10;
-        shift_sum = (ctoi(_array[_size - i - 1]) + ctoi(other._array[other._size - i - 1]) + shift_sum) / 10;
+        cur_sum = (ctoi(_array[_size - i - 1]) + ctoi(other._array[other._size - i - 1]) + shift_sum) % BASE;
+        shift_sum = (ctoi(_array[_size - i - 1]) + ctoi(other._array[other._size - i - 1]) + shift_sum) / BASE;
 
         res._array[res._size - i - 1] = itoc(cur_sum);        
     }
     
-    Money& main_arr = (_size < other._size) ? other : *this;
+    const Money& main_arr = (_size < other._size) ? other : *this;
 
     for(int i{limit}; i < main_arr._size; ++i) {
-        cur_sum = (ctoi(main_arr._array[main_arr._size - i - 1]) + shift_sum) % 10;
-        shift_sum = (ctoi(main_arr._array[main_arr._size - i - 1]) + shift_sum) / 10;
+        cur_sum = (ctoi(main_arr._array[main_arr._size - i - 1]) + shift_sum) % BASE;
+        shift_sum = (ctoi(main_arr._array[main_arr._size - i - 1]) + shift_sum) / BASE;
         res._array[res._size - i - 1] = itoc(cur_sum);
     }
 
 }
+
+
+Money Money::substract(const Money& other) {
+    Money res;
+
+    _substract(res, other);
+
+    return res;
+}
+
+
+void Money::_substract(Money& res, const Money& other) {
+    
+    res._size = std::max(_size, other._size);
+    res._array = new unsigned char[res._size];
+
+    res._positive = true; // ????????????????????????????????????
+
+    std::cout << _size << ' ' << other._size << '\n';
+
+    int cur_shift = 0;
+    for(int i{0}; i < std::min(_size, other._size); ++i) {
+        int cur_element = ctoi(_array[_size - i - 1]) - ctoi(other._array[other._size - i - 1]) - cur_shift;
+        if(cur_element < 0) {
+            cur_element += BASE;
+            cur_shift = 1;
+        } else {
+            cur_shift = 0;
+        }
+
+        res._array[res._size - i - 1] = itoc(cur_element);
+    }
+
+    const Money& main_arr = (_size < other._size) ? other : *this;
+
+    for(int i{std::min(_size, other._size)}; i < main_arr._size; ++i) {
+        int cur_element = ctoi(main_arr._array[main_arr._size - i - 1]) - cur_shift;
+
+        if(cur_element < 0) {
+            cur_element += BASE;
+            cur_shift = 1;
+        } else {
+            cur_shift = 0;
+        }
+        res._array[res._size - i - 1] = itoc(cur_element);
+    }
+
+}
+
 
 bool Money::equal(const Money& other) {
     if(_size != other._size) {
