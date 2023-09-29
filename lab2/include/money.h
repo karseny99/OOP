@@ -18,7 +18,7 @@ class Money {
 
         bool equal(const Money& other);
         bool greater(const Money& other);
-        // bool less(Money& other);
+        bool less(const Money& other);
 
 
         std::ostream& print(std::ostream& os);

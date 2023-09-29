@@ -187,8 +187,12 @@ bool Money::_greater(const Money& res, const Money& other) {
     return false;
 }
 
+
 bool Money::less(const Money& other) {
-    
+    if(equal(other)) {
+        return false;
+    }
+    return !greater(other);
 }
 
 

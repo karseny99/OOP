@@ -34,4 +34,12 @@ int main() {
 
     cout << a2.greater(a2) << '\n';
 
+    cout << "================\n";
+
+    Money a5("2");
+    Money a6("2");
+    Money a7 = a5.add(a2);
+    Money a8("1001");
+
+    cout << a6.less(a5) << '\n';
 }
