@@ -1,5 +1,7 @@
 
 #include "../include/money.h"
+#define MIN_SIZE 2
+
 
 const int BASE = 10;
 
@@ -127,26 +129,69 @@ void Money::_add(Money& res, const Money& other) {
 
 
 Money Money::substract(const Money& other) {
+    /*
+        0) *this == other
+
+        1) 5 - 3 ==> +(5 - 3)
+        2) 2 - 9 ==> -(9 - 2)
+        3) 5 - (-3) ==> 5 + 3
+        4) -3 - 5 ==> -(3 + 5)
+        
+        5.1) -5 - (-3) ==> -(5 - 3)
+        5.2) -5 - (-9) ==> 9 - 5
+    */
     Money res;
 
-    _substract(res, other);
+    if(equal(other)) {
+        res._array = new unsigned char[MIN_SIZE];
+        res._size = MIN_SIZE;
+        res._positive = true;
+        for(size_t i{0}; i < MIN_SIZE; ++i) {
+            res._array[i] = itoc(0);
+        }
+        return res;
+    }
+
+    if(_positive and _greater(other) and other._positive) { 
+        std::cout << "HERE\n";
+        _substract(res, *this, other);
+        res._positive = true;
+    } else if(_positive and !_greater(other) and other._positive) {
+        std::cout << "HERE\n";
+        _substract(res, other, *this);
+        res._positive = false;
+    } else if(_positive and !other._positive) {
+        _add(res, other);
+        res._positive = true;
+    } else if(!_positive and other._positive) {
+        _add(res, other);
+        res._positive = false;
+    } else {
+        if(_greater(other)) {
+            _substract(res, *this, other);
+            res._positive = false;
+        } else {
+            _substract(res, other, *this);
+            res._positive = true;
+        }
+    }
 
     return res;
 }
 
 
-void Money::_substract(Money& res, const Money& other) {
+void Money::_substract(Money& res, const Money& first, const Money& second) {
     
-    res._size = std::max(_size, other._size);
+    res._size = std::max(first._size, second._size);
     res._array = new unsigned char[res._size];
 
-    res._positive = true; // ????????????????????????????????????
+    // res._positive = true; // ????????????????????????????????????
 
-    std::cout << _size << ' ' << other._size << '\n';
+    // std::cout << first._size << ' ' << second._size << '\n';
 
     int cur_shift = 0;
-    for(int i{0}; i < std::min(_size, other._size); ++i) {
-        int cur_element = ctoi(_array[_size - i - 1]) - ctoi(other._array[other._size - i - 1]) - cur_shift;
+    for(int i{0}; i < std::min(first._size, second._size); ++i) {
+        int cur_element = ctoi(first._array[first._size - i - 1]) - ctoi(second._array[second._size - i - 1]) - cur_shift;
         if(cur_element < 0) {
             cur_element += BASE;
             cur_shift = 1;
@@ -157,9 +202,9 @@ void Money::_substract(Money& res, const Money& other) {
         res._array[res._size - i - 1] = itoc(cur_element);
     }
 
-    const Money& main_arr = (_size < other._size) ? other : *this;
+    const Money& main_arr = (first._size < second._size) ? second : first;
 
-    for(int i{std::min(_size, other._size)}; i < main_arr._size; ++i) {
+    for(int i{std::min(first._size, second._size)}; i < main_arr._size; ++i) {
         int cur_element = ctoi(main_arr._array[main_arr._size - i - 1]) - cur_shift;
 
         if(cur_element < 0) {
@@ -170,8 +215,8 @@ void Money::_substract(Money& res, const Money& other) {
         }
         res._array[res._size - i - 1] = itoc(cur_element);
     }
-
 }
+
 
 
 bool Money::equal(const Money& other) {
@@ -201,9 +246,9 @@ bool Money::equal(const Money& other) {
 bool Money::greater(const Money& other) {
 
     if(_positive and other._positive) {
-        return _greater(*this, other);
+        return _greater(other);
     } else if(!_positive and !other._positive) {
-        return !_greater(*this, other);
+        return !_greater(other);
     } else if(_positive and !other._positive) {
         return true;
     } else {
@@ -213,7 +258,7 @@ bool Money::greater(const Money& other) {
 }
 
 
-bool Money::_greater(const Money& res, const Money& other) {
+bool Money::_greater(const Money& other) {
     size_t _add_idx_other;
     size_t _add_idx;
 
@@ -226,8 +271,10 @@ bool Money::_greater(const Money& res, const Money& other) {
     } else if ((_size - other._size == 1 and _array[0] == itoc(0))) {
         _add_idx_other = 0;
         _add_idx = 1;
-    } else {
+    } else if(_size < other._size) {
         return false;
+    } else {
+        return true;
     }
     size_t i = 0;
     while(i < _size) {

@@ -30,9 +30,9 @@ class Money {
         unsigned char *_array;
         bool _positive;
 
-        bool _greater(const Money& res, const Money& other);
+        bool _greater(const Money& other);
         void _add(Money& res, const Money& other);
-        void _substract(Money& res, const Money& other);
+        void _substract(Money& res, const Money& first, const Money& second);
 
         int ctoi(char c);
         char itoc(int n);
