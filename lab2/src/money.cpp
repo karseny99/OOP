@@ -22,24 +22,32 @@ Money::Money() : _size(0), _array{nullptr} {
 
 Money::Money(const std::initializer_list<unsigned char> &t) {
     std::cout << "Initializer list constructor" << std::endl;
+
+    int sign_shift = 0;
     if('0' <= *t.begin() and *t.begin() <= itoc(BASE - 1)) {
         _size = t.size() + 1;
         _positive = true;
     } else {
         _size = t.size();
         _positive = (*t.begin() == '-') ? false : true;
+        sign_shift = 1;
     }
+
 
     _array = new unsigned char[_size];
     _array[0] = itoc(0);
 
+    bool _is_zero = true;
 
     size_t i{1};
-    for(auto c : t) {
-        if(c == '-' or c == '+') 
-            continue;
-        _array[i++] = c;
+    for(std::initializer_list<unsigned char>::iterator iter = t.begin() + sign_shift; iter != t.end(); ++iter) {
+        _array[i++] = *iter;
+        if(*iter != '0') {
+            _is_zero = false;
+        }
     }
+
+    if(_is_zero) _positive = true;
 }
 
 
@@ -55,10 +63,21 @@ Money::Money(const std::string &t) {
 
     _array = new unsigned char[_size];
     _array[0] = itoc(0);
+
+    bool _is_zero = true;
     
     for(size_t i{0}; i < _size; ++i) {
         _array[i + 1] = t[i + !_positive];
     }
+
+    for(size_t i{0}; i < _size; ++i) {
+        if(_array[i] != '0') {
+            _is_zero = false;
+            break;
+        }
+    }
+
+    if(_is_zero) _positive = true;
 }
 
 
