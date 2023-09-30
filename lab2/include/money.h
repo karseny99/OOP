@@ -13,7 +13,7 @@ class Money {
         Money(const Money& other);
         Money(Money&& other) noexcept;   
 
-        Money add(const Money& other);
+        Money add(Money& other);
         Money substract(const Money& other);
 
         bool equal(const Money& other);

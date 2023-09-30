@@ -28,11 +28,10 @@ int main() {
     cout << j.equal(l) << '\n';
     cout << "================\n";
 
-    Money a1;
+    Money a1("000");
     // Money a2("2");
     // Money a3 = a1.add(a2);
-    Money a4;
-    a1("321");
+    Money a4("-0");
     // a3.print(std::cout);
     cout << std::boolalpha << a4.greater(a1) << " dsadsa" << '\n';
 
@@ -49,9 +48,13 @@ int main() {
 
     // -7890 - 0 => 0 - 7890
 
-    Money a9("-000");
-    Money a10("0");
+    Money a9("-7890");
+    Money a10("-1000");
     Money a11 = a9.substract(a10);
     a11.print(std::cout);
-
+    cout << "================\n";
+    Money a12("-100000000000000000000000000000000000");
+    Money a13("99999999999");
+    Money a14 = a12.add(a13);
+    a14.print(std::cout);
 }

@@ -102,16 +102,15 @@ Money::Money(Money&& other) noexcept {
 }
 
 
-Money Money::add(const Money& other) {
+Money Money::add(Money& other) {
     Money res;
 
     if(_positive == other._positive) {
         _add(res, other);
-        return res;
-    }
-
-    // add negative to positive should treat substraction function 
-
+    } else {
+        other._positive = !other._positive;
+        return substract(other);
+    } 
 
     return res;
 }
@@ -172,11 +171,11 @@ Money Money::substract(const Money& other) {
     }
 
     if(_positive and _greater(other) and other._positive) { 
-        std::cout << "HERE\n";
+
         _substract(res, *this, other);
         res._positive = true;
     } else if(_positive and !_greater(other) and other._positive) {
-        std::cout << "HERE\n";
+
         _substract(res, other, *this);
         res._positive = false;
     } else if(_positive and !other._positive) {
@@ -203,10 +202,6 @@ void Money::_substract(Money& res, const Money& first, const Money& second) {
     
     res._size = std::max(first._size, second._size);
     res._array = new unsigned char[res._size];
-
-    // res._positive = true; // ????????????????????????????????????
-
-    // std::cout << first._size << ' ' << second._size << '\n';
 
     int cur_shift = 0;
     for(int i{0}; i < std::min(first._size, second._size); ++i) {
@@ -320,7 +315,10 @@ std::ostream &Money::print(std::ostream& os) {
     if(!_positive) {
         os << '-';
     }
-    for(size_t i{0}; i < _size; ++i) os << _array[i];
+    size_t z_skip = 0;
+    while(_array[z_skip++] == '0');
+    for(size_t i{z_skip - 1}; i < _size; ++i) os << _array[i];
+    if(z_skip == _size + 1) os << '0';
     return os;
 }
 
