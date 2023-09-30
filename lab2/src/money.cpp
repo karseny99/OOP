@@ -54,6 +54,7 @@ Money::Money(const std::initializer_list<unsigned char> &t) {
 Money::Money(const std::string &t) {
     std::cout << "Copy string constructor" << std::endl;
     if('0' <= t[0] and t[0] <= itoc(BASE - 1)) {
+        // std::cout << 213321321321321 << ' ';
         _size = t.size() + 1;
         _positive = true;
     } else {
@@ -107,12 +108,14 @@ Money Money::add(Money& other) {
 
     if(_positive == other._positive) {
         _add(res, other);
-    } else {
-        other._positive = !other._positive;
-        return substract(other);
-    } 
+        return res;
+    }
 
-    return res;
+    other._positive = !other._positive;
+    Money subs_res = substract(other);
+    other._positive = !other._positive;
+
+    return subs_res;
 }
 
 
@@ -259,14 +262,14 @@ bool Money::equal(const Money& other) {
 
 bool Money::greater(const Money& other) {
 
-    if(_positive and other._positive) {
-        return _greater(other);
-    } else if(!_positive and !other._positive) {
-        return !_greater(other);
-    } else if(_positive and !other._positive) {
+    if(_positive and !other._positive) {
         return true;
-    } else {
+    } else if(!_positive and other._positive) {
         return false;
+    } else if(_positive and other._positive) {
+        return _greater(other);
+    } else {
+        return !_greater(other);
     }
 
 }
