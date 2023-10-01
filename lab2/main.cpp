@@ -79,5 +79,10 @@ int main() {
     a18.print(std::cout);
     cout << '\n';
 
+    char c;
+    cin >> c;
+    Money a19(-1, c, false);
+    a19.print(std::cout);
+
 
 }

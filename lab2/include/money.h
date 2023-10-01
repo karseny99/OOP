@@ -7,7 +7,7 @@ class Money {
 
     public:
         Money();
-        // Money(const size_t & n, unsigned char t = 0);
+        Money(const int & n, unsigned char t, bool is_positive);
         Money(const std::initializer_list< unsigned char> &t);
         Money(const std::string &t);
         Money(const Money& other);
@@ -33,6 +33,8 @@ class Money {
         bool _greater(const Money& other);
         void _add(Money& res, const Money& other);
         void _substract(Money& res, const Money& first, const Money& second);
+
+        bool _is_digit_allowed(unsigned char c);
 
         int ctoi(char c);
         char itoc(int n);

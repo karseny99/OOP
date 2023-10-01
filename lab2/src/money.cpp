@@ -14,9 +14,30 @@ char Money::itoc(int n) {
     return n + '0';
 }
 
+bool Money::_is_digit_allowed(unsigned char c) {
+    if('0' <= c and c <= '9') return true;
+    return false;
+}
+
+
 
 Money::Money() : _size(0), _array{nullptr} {
     std::cout << "Default constructor" << std::endl;
+}
+
+Money::Money(const int & n, unsigned char t, bool is_positive) {
+    if(!_is_digit_allowed(t)) {
+        throw std::logic_error("not allowed digit in number");
+    }
+
+    if(n < 1) {
+        throw std::logic_error("not allowed size of number");
+    }
+
+    _array = new unsigned char[n + 1];
+    _positive = is_positive;
+    _size = n + 1;
+    for(size_t i{1}; i < _size; ++i) _array[i] = t;
 }
 
 
@@ -41,6 +62,11 @@ Money::Money(const std::initializer_list<unsigned char> &t) {
 
     size_t i{1};
     for(std::initializer_list<unsigned char>::iterator iter = t.begin() + sign_shift; iter != t.end(); ++iter) {
+
+        if(!_is_digit_allowed(*iter)) {
+            throw std::logic_error("not allowed digit in number");
+        }
+
         _array[i++] = *iter;
         if(*iter != '0') {
             _is_zero = false;
@@ -54,7 +80,6 @@ Money::Money(const std::initializer_list<unsigned char> &t) {
 Money::Money(const std::string &t) {
     std::cout << "Copy string constructor" << std::endl;
     if('0' <= t[0] and t[0] <= itoc(BASE - 1)) {
-        // std::cout << 213321321321321 << ' ';
         _size = t.size() + 1;
         _positive = true;
     } else {
@@ -67,7 +92,13 @@ Money::Money(const std::string &t) {
 
     bool _is_zero = true;
     
-    for(size_t i{0}; i < _size; ++i) {
+    for(size_t i{0}; i + !_positive < t.size(); ++i) {
+        // if(i + !_positive == t.size()) {
+        //     std::cout << 321321321321 << std::endl;
+        // }
+        if(!_is_digit_allowed(t[i + !_positive])) {
+            throw std::logic_error("not allowed digit in number");
+        }
         _array[i + 1] = t[i + !_positive];
     }
 
@@ -237,6 +268,9 @@ void Money::_substract(Money& res, const Money& first, const Money& second) {
 
 
 bool Money::equal(const Money& other) {
+
+    if(_positive ^ other._positive) return false;
+
     if(_size != other._size) {
         
         const Money& highest_size = (_size < other._size) ? other : *this;
