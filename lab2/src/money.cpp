@@ -385,4 +385,8 @@ unsigned char* Money::get_array() {
     return _array;
 }
 
+bool Money::is_positive() {
+    return _positive;
+}
+
 

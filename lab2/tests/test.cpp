@@ -27,13 +27,15 @@ TEST(MoneyTest, InitializerListConstructor) {
 }
 
 TEST(MoneyTest, StringConstructor) {
-    Money t("123");
+    Money t("-123");
     ASSERT_EQ(t.get_size(), 3 + 1);
+    ASSERT_TRUE(!t.is_positive());
     std::string _array = t.get_string_array();
     for(int i = 0; i < t.get_size(); ++i) {
         ASSERT_EQ(_array[i], (i + '0'));
     }
 }
+
 TEST(MoneyTest, sum) {
     Money a("100");
     Money b("100");
