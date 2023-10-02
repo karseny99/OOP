@@ -20,6 +20,8 @@ class Money {
         bool greater(const Money& other);
         bool less(const Money& other);
 
+        size_t get_size();
+        unsigned char* get_array();
 
         std::ostream& print(std::ostream& os);
 
@@ -38,5 +40,7 @@ class Money {
 
         int ctoi(char c);
         char itoc(int n);
+
+
 
 };

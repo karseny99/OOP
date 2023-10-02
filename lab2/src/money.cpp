@@ -15,7 +15,7 @@ char Money::itoc(int n) {
 }
 
 bool Money::_is_digit_allowed(unsigned char c) {
-    if('0' <= c and c <= '9') return true;
+    if('0' <= c and c <= itoc(BASE - 1)) return true;
     return false;
 }
 
@@ -79,7 +79,7 @@ Money::Money(const std::initializer_list<unsigned char> &t) {
 
 Money::Money(const std::string &t) {
     std::cout << "Copy string constructor" << std::endl;
-    if('0' <= t[0] and t[0] <= itoc(BASE - 1)) {
+    if(_is_digit_allowed(t[0])) {
         _size = t.size() + 1;
         _positive = true;
     } else {
@@ -93,9 +93,6 @@ Money::Money(const std::string &t) {
     bool _is_zero = true;
     
     for(size_t i{0}; i + !_positive < t.size(); ++i) {
-        // if(i + !_positive == t.size()) {
-        //     std::cout << 321321321321 << std::endl;
-        // }
         if(!_is_digit_allowed(t[i + !_positive])) {
             throw std::logic_error("not allowed digit in number");
         }
@@ -367,3 +364,14 @@ Money::~Money() noexcept {
         _array = nullptr;
     }
 }
+
+
+size_t Money::get_size() {
+    return _size;
+}
+
+unsigned char* Money::get_array() {
+    return _array;
+}
+
+

@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "include/money.h"
+#include "../include/money.h"
 
 using namespace std;
 
@@ -81,7 +81,7 @@ int main() {
 
     char c;
     cin >> c;
-    Money a19(-1, c, false);
+    Money a19(1, c, false);
     a19.print(std::cout);
 
 
