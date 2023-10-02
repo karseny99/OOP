@@ -80,6 +80,14 @@ TEST(MoneyTest, sum4) {
     ASSERT_TRUE(res.equal(c));
 }
 
+TEST(MoneyTest, sum6) {
+    Money a("0");
+    Money b("0");
+    Money c("0");
+
+    Money res = a.add(b);
+    ASSERT_TRUE(res.equal(c));
+}
 TEST(MoneyTest, subs1) {
     Money a("100");
     Money b("900");
