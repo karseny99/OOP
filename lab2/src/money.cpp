@@ -345,6 +345,17 @@ bool Money::less(const Money& other) {
 }
 
 
+std::string Money::get_string_array() {
+   std::string s;
+
+    for(size_t i{0}; i < _size; ++i) {
+        s += _array[i];
+    }
+
+    return s;
+}
+
+
 std::ostream &Money::print(std::ostream& os) {
     if(!_positive) {
         os << '-';

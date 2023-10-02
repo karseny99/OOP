@@ -22,6 +22,7 @@ class Money {
 
         size_t get_size();
         unsigned char* get_array();
+        std::string get_string_array();
 
         std::ostream& print(std::ostream& os);
 
