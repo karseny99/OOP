@@ -180,6 +180,14 @@ TEST(MoneyTest, greater4) {
     ASSERT_TRUE(a.greater(b));
 }
 
+TEST(MoneyTest, Destructor) {
+    Money a("-10101010010101");
+
+    // Ожидаем, что при удалении объекта произойдет вызов деструктора
+    EXPECT_DEATH(delete &a, "");
+}
+
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
