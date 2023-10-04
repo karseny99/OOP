@@ -36,6 +36,63 @@ TEST(MoneyTest, StringConstructor) {
     }
 }
 
+TEST(MoneyTest, equal1) {
+    Money a("-0100");
+    Money b("-100");
+    
+    ASSERT_TRUE(a.equal(b));
+}
+TEST(MoneyTest, equal2) {
+    Money a("100");
+    Money b("-100");
+    
+    ASSERT_TRUE(!a.equal(b));
+}
+TEST(MoneyTest, equal3) {
+    Money a("-0");
+    Money b("0");
+    
+    ASSERT_TRUE(a.equal(b));
+}
+TEST(MoneyTest, equal4) {
+    Money a("100");
+    Money b("100");
+    
+    ASSERT_TRUE(a.equal(b));
+}
+TEST(MoneyTest, greater1) {
+    Money a("2");
+    Money b("3");
+    
+    ASSERT_TRUE(!a.greater(b));
+}
+TEST(MoneyTest, greater3) {
+    Money a("100");
+    Money b("900");
+    
+    ASSERT_TRUE(!a.greater(b));
+}
+TEST(MoneyTest, greater2) {
+    Money a("0100");
+    Money b("10");
+    
+    ASSERT_TRUE(a.greater(b));
+}
+
+TEST(MoneyTest, greater4) {
+    Money a("1001");
+    Money b("-10");
+    
+    ASSERT_TRUE(a.greater(b));
+}
+
+TEST(MoneyTest, greater5) {
+    Money a("-1");
+    Money b("-10");
+    
+    ASSERT_TRUE(a.greater(b));
+}
+
 TEST(MoneyTest, sum) {
     Money a("100");
     Money b("100");
@@ -92,12 +149,32 @@ TEST(MoneyTest, sum4) {
 
 TEST(MoneyTest, sum6) {
     Money a("0");
-    Money b("0");
-    Money c("0");
+    Money b("-10");
+    Money c("-10");
 
     Money res = a.add(b);
     ASSERT_TRUE(res.equal(c));
 }
+
+TEST(MoneyTest, sum7) {
+    Money a;
+    Money b;
+    Money c;
+
+    Money res = a.add(b);
+    ASSERT_TRUE(res.equal(c));
+}
+
+
+TEST(MoneyTest, sum8) {
+    Money a("10");
+    Money b;
+    Money c("10");
+
+    Money res = a.add(b);
+    ASSERT_TRUE(res.equal(c));
+}
+
 TEST(MoneyTest, subs1) {
     Money a("100");
     Money b("900");
@@ -140,60 +217,32 @@ TEST(MoneyTest, subs5) {
     ASSERT_TRUE(res.equal(c));
 }
 
-TEST(MoneyTest, equal1) {
-    Money a("-0100");
-    Money b("-100");
-    
-    ASSERT_TRUE(a.equal(b));
-}
-TEST(MoneyTest, equal2) {
-    Money a("100");
-    Money b("-100");
-    
-    ASSERT_TRUE(!a.equal(b));
-}
-TEST(MoneyTest, equal3) {
-    Money a("-0");
-    Money b("0");
-    
-    ASSERT_TRUE(a.equal(b));
-}
-TEST(MoneyTest, equal4) {
-    Money a("100");
-    Money b("100");
-    
-    ASSERT_TRUE(a.equal(b));
-}
-TEST(MoneyTest, greater1) {
-    Money a("2");
-    Money b("3");
-    
-    ASSERT_TRUE(!a.greater(b));
-}
-TEST(MoneyTest, greater3) {
-    Money a("100");
+TEST(MoneyTest, subs6) {
+    Money a;
     Money b("900");
-    
-    ASSERT_TRUE(!a.greater(b));
-}
-TEST(MoneyTest, greater2) {
-    Money a("0100");
-    Money b("10");
-    
-    ASSERT_TRUE(a.greater(b));
+    Money c("-900");
+
+    Money res = a.substract(b);
+    ASSERT_TRUE(res.equal(c));
 }
 
-TEST(MoneyTest, greater4) {
-    Money a("1001");
-    Money b("-10");
-    
-    ASSERT_TRUE(a.greater(b));
+TEST(MoneyTest, subs7) {
+    Money a("100");
+    Money b;
+    Money c("100");
+
+    Money res = a.substract(b);
+    ASSERT_TRUE(res.equal(c));
+}
+
+TEST(MoneyTest, allowed_input) {
+    std::string s = "-1fsdafdsjfhdslfds432432432";
+    EXPECT_THROW(Money a(s), std::logic_error);
 }
 
 TEST(MoneyTest, Destructor) {
     Money a("-10101010010101");
 
-    // Ожидаем, что при удалении объекта произойдет вызов деструктора
     EXPECT_DEATH(delete &a, "");
 }
 

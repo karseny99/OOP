@@ -62,7 +62,7 @@ Money::Money(const std::initializer_list<unsigned char> &t) {
 
     size_t i{1};
     for(std::initializer_list<unsigned char>::iterator iter = t.begin() + sign_shift; iter != t.end(); ++iter) {
-
+        
         if(!_is_digit_allowed(*iter)) {
             throw std::logic_error("not allowed digit in number");
         }
@@ -134,6 +134,31 @@ Money::Money(Money&& other) noexcept {
 Money Money::add(Money& other) {
     Money res;
 
+    if(_array == nullptr and other._array == nullptr) {
+        return res;
+    } else if(_array == nullptr and other._array != nullptr) {
+        res._size = other._size;
+        res._positive = other._positive;
+        res._array = new unsigned char[res._size];
+
+        for(size_t i{0}; i < res._size; ++i) {
+            res._array[i] = other._array[i];
+        }
+
+        return res;
+
+    } else if(_array != nullptr and other._array == nullptr) {
+        res._size = _size;
+        res._positive = _positive;
+        res._array = new unsigned char[res._size];
+        
+        for(size_t i{0}; i < res._size; ++i) {
+            res._array[i] = _array[i];
+        }
+
+        return res;
+    }
+
     if(_positive == other._positive) {
         _add(res, other);
         return res;
@@ -190,6 +215,33 @@ Money Money::substract(const Money& other) {
         5.2) -5 - (-9) ==> 9 - 5
     */
     Money res;
+
+    if(_array == nullptr and other._array == nullptr) {
+        return res;
+    } else if(_array == nullptr and other._array != nullptr) {
+        res._size = other._size;
+        res._positive = !other._positive;
+        res._array = new unsigned char[res._size];
+
+        for(size_t i{0}; i < res._size; ++i) {
+            res._array[i] = other._array[i];
+        }
+
+        return res;
+
+    } else if(_array != nullptr and other._array == nullptr) {
+        res._size = _size;
+        res._positive = _positive;
+        res._array = new unsigned char[res._size];
+        
+        for(size_t i{0}; i < res._size; ++i) {
+            res._array[i] = _array[i];
+        }
+
+        return res;
+    }
+
+
 
     if(equal(other)) {
         res._array = new unsigned char[MIN_SIZE];
@@ -265,6 +317,10 @@ void Money::_substract(Money& res, const Money& first, const Money& second) {
 
 
 bool Money::equal(const Money& other) {
+
+    if(_array == nullptr and other._array == nullptr) {
+        return true;
+    }
 
     if(_positive ^ other._positive) return false;
 
@@ -345,7 +401,7 @@ bool Money::less(const Money& other) {
 }
 
 
-std::string Money::get_string_array() {
+std::string Money::get_string_array() const{
    std::string s;
 
     for(size_t i{0}; i < _size; ++i) {
@@ -377,15 +433,15 @@ Money::~Money() noexcept {
 }
 
 
-size_t Money::get_size() {
+size_t Money::get_size() const {
     return _size;
 }
 
-unsigned char* Money::get_array() {
+unsigned char* Money::get_array() const {
     return _array;
 }
 
-bool Money::is_positive() {
+bool Money::is_positive() const {
     return _positive;
 }
 

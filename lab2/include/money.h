@@ -20,10 +20,10 @@ class Money {
         bool greater(const Money& other);
         bool less(const Money& other);
 
-        size_t get_size();
-        unsigned char* get_array();
-        std::string get_string_array();
-        bool is_positive();
+        size_t get_size() const;
+        unsigned char* get_array() const;
+        std::string get_string_array() const;
+        bool is_positive() const;
 
         std::ostream& print(std::ostream& os);
 

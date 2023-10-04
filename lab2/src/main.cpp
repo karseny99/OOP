@@ -57,32 +57,34 @@ int main() {
     // Money a13("99999999999");
     // Money a14 = a12.add(a13);
     // a14.print(std::cout);
-    cout << boolalpha << "\n================\n";
+    // cout << boolalpha << "\n================\n";
 
-    string a, b;
-    cin >> a >> b;
-    Money a15(a);
-    Money a16(b);
-    a15.print(std::cout);
-    cout << '\n';
-    a16.print(std::cout);
-    cout << '\n';
+    // string a, b;
+    // cin >> a >> b;
+    // Money a15(a);
+    // Money a16(b);
+    // a15.print(std::cout);
+    // cout << '\n';
+    // a16.print(std::cout);
+    // cout << '\n';
 
-    Money a17 = a15.add(a16); 
-    Money a18 = a15.substract(a16);
-    cout << a15.equal(a16) << '\n';
-    cout << a15.less(a16) << '\n';
-    cout << a15.greater(a16) << '\n';
+    // Money a17 = a15.add(a16); 
+    // Money a18 = a15.substract(a16);
+    // cout << a15.equal(a16) << '\n';
+    // cout << a15.less(a16) << '\n';
+    // cout << a15.greater(a16) << '\n';
 
-    a17.print(std::cout);
-    cout << '\n';
-    a18.print(std::cout);
-    cout << '\n';
+    // a17.print(std::cout);
+    // cout << '\n';
+    // a18.print(std::cout);
+    // cout << '\n';
 
-    char c;
-    cin >> c;
-    Money a19(1, c, false);
-    a19.print(std::cout);
+    // char c;
+    // cin >> c;
+    // Money a19(1, c, false);
+    // a19.print(std::cout);
 
+    Money a("123");
+    Money b = a;
 
 }
