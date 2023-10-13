@@ -1,3 +1,4 @@
+#pragma once
 #include "figure.hpp"
 #include "point.hpp"
 
@@ -16,6 +17,7 @@ class Trapezoid : public Figure {
 
     private:
         Point * _array;
+        bool horizontal_type;
 
         bool trapezoid_check();
 };

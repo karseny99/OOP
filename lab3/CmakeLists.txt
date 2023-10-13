@@ -13,5 +13,5 @@ set(SOURCE_LIB src/rectangle.cpp)
 # find_package(GTest REQUIRED)
 # include_directories(${GTEST_INCLUDE_DIRS})
 
-add_executable(main src/main.cpp src/figure.cpp src/rectangle.cpp src/)
+add_executable(main src/main.cpp src/figure.cpp src/rectangle.cpp src/rhombus.cpp src/point.cpp src/trapezoid.cpp)
 

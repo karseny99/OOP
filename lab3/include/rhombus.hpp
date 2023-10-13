@@ -1,3 +1,4 @@
+#pragma once
 #include "figure.hpp"
 #include "point.hpp"
 
