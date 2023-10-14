@@ -1,6 +1,7 @@
 #pragma once
 #include <utility>
 #include "point.hpp"
+#include <iostream>
 
 class Figure {
     public:

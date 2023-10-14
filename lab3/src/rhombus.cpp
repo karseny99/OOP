@@ -35,6 +35,25 @@ Rhombus::Rhombus(Point a, Point b, Point c, Point d) {
 
 }
 
+Rhombus::Rhombus(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
+    _array = new Point[4];
+    _array[0].x = x1;
+    _array[0].y = y1;
+    _array[1].x = x2;
+    _array[1].y = y2;
+    _array[2].x = x3;
+    _array[2].y = y3;
+    _array[3].x = x4;
+    _array[3].y = y4;
+    
+    std::sort(_array, _array + 4);
+
+    if(!rhombus_check()) {
+        throw std::logic_error("Invalid coords");
+    }
+}
+
+
 Rhombus::Rhombus(const Rhombus& other) {
     _array = new Point[4];
     for(int i = 0; i < 4; ++i) {
@@ -48,7 +67,7 @@ Rhombus::Rhombus(const Rhombus& other) {
 
 Point Rhombus::center() const {
     Point center;
-    center = (_array[3] - _array[0]) / 2;
+    center = _array[0] + (_array[3] - _array[0]) / 2;
     return center;
 }
 
@@ -63,3 +82,16 @@ bool Rhombus::equal(const Rhombus& other) const {
     return (_array[0] == other._array[0]) and (_array[1] == other._array[1]) and (_array[2] == other._array[2]) and (_array[3] == other._array[3]);
 }
 
+Rhombus::operator double() const {
+    return square();
+}
+
+
+bool operator==(Rhombus& left_operand, Rhombus& right_operand) {
+    if(left_operand._array == nullptr and right_operand._array == nullptr) {
+        return true;
+    } else if(left_operand._array != nullptr and right_operand._array != nullptr) {
+        return (left_operand._array[0] == right_operand._array[0]) and (left_operand._array[1] == right_operand._array[1]) and (left_operand._array[2] == right_operand._array[2]) and (left_operand._array[3] == right_operand._array[3]);
+    }
+    return false;
+}

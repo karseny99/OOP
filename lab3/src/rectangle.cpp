@@ -43,6 +43,24 @@ Rectangle::Rectangle(const Rectangle& other) {
         throw std::logic_error("Invalid coords");
     }
 }
+
+Rectangle::Rectangle(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
+    _array = new Point[4];
+    _array[0].x = x1;
+    _array[0].y = y1;
+    _array[1].x = x2;
+    _array[1].y = y2;
+    _array[2].x = x3;
+    _array[2].y = y3;
+    _array[3].x = x4;
+    _array[3].y = y4;
+    
+    std::sort(_array, _array + 4);
+
+    if(!rectangle_check()) {
+        throw std::logic_error("Invalid coords");
+    }
+}
  
 Point Rectangle::center() const {
     Point res;
@@ -51,9 +69,22 @@ Point Rectangle::center() const {
 }
 
 double Rectangle::square() const {
-    return fabs((_array[0].x - _array[1].x) * (_array[0].y - _array[2].y));
+        return vector_length(_array[1]- _array[0]) * vector_length(_array[2] - _array[0]);
 }
 
 bool Rectangle::equal(const Rectangle& other) const { 
     return (_array[0] == other._array[0]) and (_array[1] == other._array[1]) and (_array[2] == other._array[2]) and (_array[3] == other._array[3]);
+}
+
+Rectangle::operator double() const {
+    return square();
+}
+
+bool operator==(Rectangle& left_operand, Rectangle& right_operand) {
+    if(left_operand._array == nullptr and right_operand._array == nullptr) {
+        return true;
+    } else if(left_operand._array != nullptr and right_operand._array != nullptr) {
+        return (left_operand._array[0] == right_operand._array[0]) and (left_operand._array[1] == right_operand._array[1]) and (left_operand._array[2] == right_operand._array[2]) and (left_operand._array[3] == right_operand._array[3]);
+    }
+    return false;
 }
