@@ -6,8 +6,8 @@
 class Figure {
     public:
         Figure() = default;
+        ~Figure() = default;
 
         virtual Point center() const = 0;
         virtual double square() const = 0;
-        ~Figure() = default;
 };

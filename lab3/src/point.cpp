@@ -20,6 +20,7 @@ Point operator-(const Point& left_operand, const Point& right_operand) {
 }
 
 Point operator+(const Point& left_operand, const Point& right_operand) {
+
     Point res;
     res.x = left_operand.x + right_operand.x;
     res.y = left_operand.y + right_operand.y;

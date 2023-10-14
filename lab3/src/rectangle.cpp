@@ -14,7 +14,9 @@ bool Rectangle::rectangle_check() {
     d = (_array[3] - _array[1]);
 
     if(a * b == 0 and b * c == 0 and c * d == 0 and a * d == 0) {
-        return true;
+        if(a * a > 0 and b * b > 0 and c * c > 0 and d * d > 0) {
+            return true;
+        }
     }
     return false;
 }
@@ -63,17 +65,28 @@ Rectangle::Rectangle(double x1, double y1, double x2, double y2, double x3, doub
 }
  
 Point Rectangle::center() const {
+
+    if(_array == nullptr) {
+        throw std::logic_error("Can't get center of None-Figure");
+    }
+
     Point res;
     res = (_array[3] - _array[0]) / 2; 
     return res;
 }
 
 double Rectangle::square() const {
+        if(_array == nullptr) return 0;
         return vector_length(_array[1]- _array[0]) * vector_length(_array[2] - _array[0]);
 }
 
-bool Rectangle::equal(const Rectangle& other) const { 
-    return (_array[0] == other._array[0]) and (_array[1] == other._array[1]) and (_array[2] == other._array[2]) and (_array[3] == other._array[3]);
+bool Rectangle::equal(const Rectangle& other) const { // better to not to use
+    if(_array == nullptr and other._array == nullptr) {
+        return true;
+    } else if(other._array != nullptr and _array != nullptr) {
+        return (other._array[0] == _array[0]) and (other._array[1] == _array[1]) and (other._array[2] == _array[2]) and (other._array[3] == _array[3]);
+    }
+    return false;
 }
 
 Rectangle::operator double() const {

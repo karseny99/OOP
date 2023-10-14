@@ -21,14 +21,6 @@ class Rectangle : public Figure {
 
         operator double() const;
 
-        Rectangle operator=(const Rectangle& r) {
-            _array = new Point[4];
-            for(int i = 0; i < 4; ++i) {
-                _array[i] = r._array[i];
-            }
-
-            return *this;
-        }
 
         virtual Point center() const final;
         virtual double square() const final;
@@ -63,7 +55,7 @@ inline std::ostream& operator<<(std::ostream& os, Rectangle& r) {
     }
     
     for(int i = 0; i < 4; ++i) {
-        os << "a[" << r._array[i].x << ", " << r._array[i].y << "]" << std:: endl;
+        os << "dot" << i + 1 << "[" << r._array[i].x << ", " << r._array[i].y << "]" << std:: endl;
     }
 
     return os;

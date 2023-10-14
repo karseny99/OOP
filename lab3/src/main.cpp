@@ -57,7 +57,7 @@ void del(Figure**& _array, int& _size, int idx) {
     --_size;
 }
 
-void get_info(Figure**& array, const int& size) {
+void get_info(Figure** array, const int& size) {
     std::cout << "===============\n";
     double sq = 0;
     for(int i = 0; i < size; ++i) {

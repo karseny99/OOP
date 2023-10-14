@@ -7,8 +7,9 @@
 #include <math.h>
 
 static double sq_formula(double a, double b, double c, double d) { // a || b
-    double s = (a + b) / 2 * sqrt(c * c - (((a - b) * (a - b) + c * c - d * d) / (2 * (a  - b))) * (((a - b) * (a - b) + c * c - d * d) / (2 * (a  - b))));
-    return s;
+    double s = (a + b) * (a + b) * (4 * c * c - (a - b) * (a - b));
+    // double s = (a + b) / 2 * sqrt(c * c - (((a - b) * (a - b) + c * c - d * d) / (2 * (a  - b))) * (((a - b) * (a - b) + c * c - d * d) / (2 * (a  - b))));
+    return sqrt(s) / 4;
 }
 
 bool Trapezoid::trapezoid_check() {
@@ -110,19 +111,19 @@ double Trapezoid::square() const {
         b = _array[3] - _array[1];
         d = _array[2] - _array[0];
 
-        return sq_formula(vector_length(a), vector_length(c), vector_length(b), vector_length(d));
+        return (sq_formula(vector_length(a), vector_length(c), vector_length(b), vector_length(d)));
 
     } else if(d.x * b.y == d.y * b.x) {
         a = _array[1] - _array[0];
         c = _array[3] - _array[2];
 
-        return sq_formula(vector_length(b), vector_length(d), vector_length(a), vector_length(c));
+        return (sq_formula(vector_length(b), vector_length(d), vector_length(a), vector_length(c)));
      
     } else if(e.x * f.y == e.y * f.x) {
         a = _array[1] - _array[0];
         b = _array[3] - _array[2];
 
-        return sq_formula(vector_length(e), vector_length(f), vector_length(a), vector_length(b));
+        return (sq_formula(vector_length(e), vector_length(f), vector_length(a), vector_length(b)));
     }
 
     return 0;

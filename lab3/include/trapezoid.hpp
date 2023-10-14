@@ -19,15 +19,6 @@ class Trapezoid : public Figure {
 
         operator double() const;
 
-        Trapezoid operator=(const Trapezoid& t) {
-            _array = new Point[4];
-            for(int i = 0; i < 4; ++i) {
-                _array[i] = t._array[i];
-            }
-
-            return *this;
-        } 
-
         virtual Point center() const final;
         virtual double square() const final;
         bool equal(const Trapezoid& other) const;

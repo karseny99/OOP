@@ -66,12 +66,16 @@ Rhombus::Rhombus(const Rhombus& other) {
 }
 
 Point Rhombus::center() const {
+    if(_array == nullptr) {
+        throw std::logic_error("Can't get center of None-Figure");
+    }
     Point center;
     center = _array[0] + (_array[3] - _array[0]) / 2;
     return center;
 }
 
 double Rhombus::square() const {
+    if(_array == nullptr) return 0;
     Point diag1, diag2;
     diag1 = _array[3] - _array[0];
     diag2 = _array[2] - _array[1];
