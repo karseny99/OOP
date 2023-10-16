@@ -65,6 +65,11 @@ Rhombus::Rhombus(const Rhombus& other) {
     }
 }
 
+Rhombus::Rhombus(Rhombus&& other) noexcept {
+    _array = other._array;
+    other._array = nullptr;
+}
+
 Point Rhombus::center() const {
     if(_array == nullptr) {
         throw std::logic_error("Can't get center of None-Figure");

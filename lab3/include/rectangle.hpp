@@ -17,10 +17,28 @@ class Rectangle : public Figure {
         Rectangle(Point a, Point b, Point c, Point d);
         Rectangle(const Rectangle& other);
         Rectangle(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+        Rectangle(Rectangle&& other) noexcept;
         ~Rectangle() = default;
-
         operator double() const;
 
+        void operator=(Rectangle& r) {
+            if(r._array == nullptr) {
+                if(_array == nullptr) {
+                    delete[] _array;
+                }
+                _array = nullptr;
+                return;
+            }
+
+            if(_array == nullptr) {
+                _array = new Point[4];
+            }
+
+            for(int i = 0; i < 4; ++i) {
+                _array[i] = r._array[i];
+            }
+            return;
+        }
 
         virtual Point center() const final;
         virtual double square() const final;

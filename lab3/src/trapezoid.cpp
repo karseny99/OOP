@@ -81,6 +81,12 @@ Trapezoid::Trapezoid(double x1, double y1, double x2, double y2, double x3, doub
     }
 }
 
+Trapezoid::Trapezoid(Trapezoid&& other) noexcept {
+    _array = other._array;
+    other._array = nullptr;
+}
+
+
 Point Trapezoid::center() const {
     if(_array == nullptr) {
         throw std::logic_error("Cannot get center of None-figure");

@@ -93,6 +93,31 @@ TEST(FigureTest, Rectangle9) {
     ASSERT_TRUE(c == 1);
 }
 
+
+TEST(FigureTest, Rectangle10) {
+    Rectangle a(0, 0, 0, 1, 1, 0, 1, 1);
+    Rectangle b;
+    b = a;
+    double c = b;
+    ASSERT_EQ(b, 1);
+}
+
+TEST(FigureTest, Rectangle11) {
+    Rectangle a(0, 0, 0, 1, 1, 0, 1, 1);
+    Rectangle b;
+    a = b;
+    double c = a;
+    ASSERT_EQ(a, 0);
+}
+
+TEST(FigureTest, Rectangle12) {
+    Rectangle a;
+    Rectangle b;
+    a = b;
+
+    ASSERT_TRUE(a == b);
+}
+
 TEST(FigureTest, Rhombus1) {
     Rhombus a(0, 0, 0, 2, 1, 1, -1, 1);
     Point center(0, 1);
@@ -137,7 +162,6 @@ TEST(FigureTest, Rhombus5) {
 TEST(FigureTest, Rhombus6) {
     Rhombus a(0, 0, 0, 2, 1, 1, -1, 1);
     Rhombus b = a;
-    
 
     ASSERT_TRUE(a == b);
 }
@@ -156,6 +180,30 @@ TEST(FigureTest, Rhombus9) {
     double b = a;
 
     ASSERT_EQ(b, 2);
+}
+
+TEST(FigureTest, Rhombus10) {
+    Rhombus a(0, 0, 0, 2, 1, 1, -1, 1);
+    Rhombus b;
+    b = a;
+    double c = b;
+    ASSERT_EQ(b, 2);
+}
+
+TEST(FigureTest, Rhombus11) {
+    Rhombus a(0, 0, 0, 2, 1, 1, -1, 1);
+    Rhombus b;
+    a = b;
+    double c = a;
+    ASSERT_EQ(a, 0);
+}
+
+TEST(FigureTest, Rhombus12) {
+    Rhombus a;
+    Rhombus b;
+    a = b;
+
+    ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Trapezoid1) {
@@ -203,6 +251,29 @@ TEST(FigureTest, Trapezoid7) {
     ASSERT_EQ(c, 4);
 }
 
+TEST(FigureTest, Trapezoid8) {
+    Trapezoid a(0, 0, 3, 0, 1, 2, 2, 2);
+    Trapezoid b;
+    b = a;
+    double c = b;
+    ASSERT_EQ(b, 4);
+}
+
+TEST(FigureTest, Trapezoid9) {
+    Trapezoid a(0, 0, 3, 0, 1, 2, 2, 2);
+    Trapezoid b;
+    a = b;
+    double c = a;
+    ASSERT_EQ(a, 0);
+}
+
+TEST(FigureTest, Trapezoid10) {
+    Trapezoid a;
+    Trapezoid b;
+    a = b;
+
+    ASSERT_TRUE(a == b);
+}
 
 TEST(FigureTest, EmptyClass1) {
     Rectangle a;
@@ -254,6 +325,7 @@ TEST(FigureTest, EmptyClass9) {
     Rectangle b;
     ASSERT_TRUE(a == b);
 }
+
 
 
 TEST(FigureTest, stdout1) {

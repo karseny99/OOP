@@ -14,9 +14,28 @@ class Rhombus : public Figure {
         Rhombus(Point a, Point b, Point c, Point d);
         Rhombus(const Rhombus& other);
         Rhombus(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
+        Rhombus(Rhombus&& other) noexcept;
         ~Rhombus() = default;
-
         operator double() const;
+
+        void operator=(Rhombus& r) {
+            if(r._array == nullptr) {
+                if(_array == nullptr) {
+                    delete[] _array;
+                }
+                _array = nullptr;
+                return;
+            }
+
+            if(_array == nullptr) {
+                _array = new Point[4];
+            }
+
+            for(int i = 0; i < 4; ++i) {
+                _array[i] = r._array[i];
+            }
+            return;
+        }
 
 
         virtual Point center() const final;

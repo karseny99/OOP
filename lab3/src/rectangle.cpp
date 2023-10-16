@@ -63,6 +63,11 @@ Rectangle::Rectangle(double x1, double y1, double x2, double y2, double x3, doub
         throw std::logic_error("Invalid coords");
     }
 }
+
+Rectangle::Rectangle(Rectangle&& other) noexcept {
+    _array = other._array;
+    other._array = nullptr;
+}
  
 Point Rectangle::center() const {
 
