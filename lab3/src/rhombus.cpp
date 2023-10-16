@@ -10,9 +10,9 @@
 bool Rhombus::rhombus_check() {
     double a, b, c, d;
     a = vector_length(_array[1] - _array[0]);
-    b = vector_length(_array[2] - _array[0]);
+    b = vector_length(_array[2] - _array[1]);
     c = vector_length(_array[3] - _array[2]);
-    d = vector_length(_array[3] - _array[1]);
+    d = vector_length(_array[3] - _array[0]);
 
     if(a == b and a == c and c == d and a != 0) {
         return true;
@@ -27,12 +27,18 @@ Rhombus::Rhombus(Point a, Point b, Point c, Point d) {
     _array[2] = c;
     _array[3] = d;
 
-    std::sort(_array, _array + 4);
 
     if(!rhombus_check()) {
         throw std::logic_error("Invalid coords");
     }
 
+    _original_array = new Point[4];
+    _original_array[0] = _array[0];
+    _original_array[1] = _array[1];
+    _original_array[2] = _array[2];
+    _original_array[3] = _array[3];
+
+    std::sort(_array, _array + 4);
 }
 
 Rhombus::Rhombus(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
@@ -46,29 +52,30 @@ Rhombus::Rhombus(double x1, double y1, double x2, double y2, double x3, double y
     _array[3].x = x4;
     _array[3].y = y4;
     
-    std::sort(_array, _array + 4);
 
     if(!rhombus_check()) {
         throw std::logic_error("Invalid coords");
     }
+
+    _original_array = new Point[4];
+    _original_array[0] = _array[0];
+    _original_array[1] = _array[1];
+    _original_array[2] = _array[2];
+    _original_array[3] = _array[3];
+
+    std::sort(_array, _array + 4);
 }
 
 
 Rhombus::Rhombus(const Rhombus& other) {
+    _original_array = new Point[4];
     _array = new Point[4];
     for(int i = 0; i < 4; ++i) {
+        _original_array[i] = other._original_array[i];
         _array[i] = other._array[i];
     }
-
-    if(!rhombus_check()) {
-        throw std::logic_error("Invalid coords");
-    }
 }
 
-Rhombus::Rhombus(Rhombus&& other) noexcept {
-    _array = other._array;
-    other._array = nullptr;
-}
 
 Point Rhombus::center() const {
     if(_array == nullptr) {

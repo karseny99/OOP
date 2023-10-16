@@ -73,21 +73,6 @@ void get_info(Figure** array, const int& size) {
 }
 
 int main() {
-    // Point a = {-4, -1};
-    // Point b = {-2, 5};
-    // Point c = {4, 8};
-    // Point d = {8, 5};
-    // Trapezoid h(a, b, c, d);
-    // std::cout << h.center().x << ' ' << h.center().y << '\n';
-
-    // Trapezoid k(0, 0, 3, 0, 1, 4, 2, 4);
-    // bool fla = (k == h);
-    // std::cout << fla;
-
-    // std::cout << k << std::endl;
-
-    // std::cin >> k;
-
     Figure** array = new Figure*[MIN_SIZE];
     int size = 0;
     int cap = MIN_SIZE;

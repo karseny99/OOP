@@ -9,11 +9,13 @@
 bool Rectangle::rectangle_check() {
     Point a, b, c, d;
     a = (_array[1] - _array[0]);
-    b = (_array[2] - _array[0]);
-    c = (_array[3] - _array[2]);
-    d = (_array[3] - _array[1]);
+    b = (_array[3] - _array[0]);
+    c = (_array[2] - _array[1]);
+    d = (_array[2] - _array[3]);
 
-    if(a * b == 0 and b * c == 0 and c * d == 0 and a * d == 0) {
+    // std::cout << (a * b == 0) << (b * d == 0) << (c * d == 0) << (a * c == 0) << std::endl;
+
+    if(a * b == 0 and b * d == 0 and c * d == 0 and a * c == 0) {
         if(a * a > 0 and b * b > 0 and c * c > 0 and d * d > 0) {
             return true;
         }
@@ -28,21 +30,23 @@ Rectangle::Rectangle(Point a, Point b, Point c, Point d) {
     _array[2] = c;
     _array[3] = d;
 
-    std::sort(_array, _array + 4);
-
     if(!rectangle_check()) {
         throw std::logic_error("Invalid coords");
     }
+
+    _original_array = new Point[4];
+    _original_array[0] = _array[0];
+    _original_array[1] = _array[1];
+    _original_array[2] = _array[2];
+    _original_array[3] = _array[3];
+
+    std::sort(_array, _array + 4);
 }
 
 Rectangle::Rectangle(const Rectangle& other) {
     _array = new Point[4];
     for(int i = 0; i < 4; ++i) {
         _array[i] = other._array[i];
-    }
-
-    if(!rectangle_check()) {
-        throw std::logic_error("Invalid coords");
     }
 }
 
@@ -57,18 +61,19 @@ Rectangle::Rectangle(double x1, double y1, double x2, double y2, double x3, doub
     _array[3].x = x4;
     _array[3].y = y4;
     
-    std::sort(_array, _array + 4);
-
     if(!rectangle_check()) {
         throw std::logic_error("Invalid coords");
     }
+
+    _original_array = new Point[4];
+    _original_array[0] = _array[0];
+    _original_array[1] = _array[1];
+    _original_array[2] = _array[2];
+    _original_array[3] = _array[3];
+
+    std::sort(_array, _array + 4);
 }
 
-Rectangle::Rectangle(Rectangle&& other) noexcept {
-    _array = other._array;
-    other._array = nullptr;
-}
- 
 Point Rectangle::center() const {
 
     if(_array == nullptr) {
@@ -85,14 +90,6 @@ double Rectangle::square() const {
         return vector_length(_array[1]- _array[0]) * vector_length(_array[2] - _array[0]);
 }
 
-bool Rectangle::equal(const Rectangle& other) const { // better to not to use
-    if(_array == nullptr and other._array == nullptr) {
-        return true;
-    } else if(other._array != nullptr and _array != nullptr) {
-        return (other._array[0] == _array[0]) and (other._array[1] == _array[1]) and (other._array[2] == _array[2]) and (other._array[3] == _array[3]);
-    }
-    return false;
-}
 
 Rectangle::operator double() const {
     return square();

@@ -12,28 +12,27 @@ static double sq_formula(double a, double b, double c, double d) { // a || b
     return sqrt(s) / 4;
 }
 
-bool Trapezoid::trapezoid_check() {
-    Point a, b, c, d, e, f;
-    a = (_array[1] - _array[0]);
-    c = (_array[3] - _array[2]);
+bool Trapezoid::trapezoid_check() { // 0, 0, 3, 0, 1, 2, 2, 2
+    Point a, b, c, d;
+    a = (_array[0] - _array[1]); // (3, 0)
+    b = (_array[2] - _array[1]); // (-2, 2)
+    c = (_array[2] - _array[3]); // (1, 0)
+    d = (_array[3] - _array[0]); // (2, 2)
 
-    b = (_array[2] - _array[1]);
-    d = (_array[3] - _array[0]);
-
-    e = (_array[3] - _array[1]);
-    f = (_array[2] - _array[0]);
-
-    if((a.x * c.y == a.y * c.x) and (e.x * f.y != e.y * f.x)) {
-        
-        return true;
+    if((a.x * c.y == a.y * c.x) and (b.x * d.y != b.y * d.x)) {
+        if(a * b < 0 or c * b < 0) {
+            
+            // std::cout << a * b << ' ' << c * b << std::endl;
+            return true;
+        }
     }
+
+    d = (_array[0] - _array[3]);
+
     if((d.x * b.y == d.y * b.x) and (a.x * c.y != a.y * c.x)) {
-
-        return true;
-    }
-    if((e.x * f.y == e.y * f.x) and (a.x * c.y != a.y * c.x)) {
-        
-        return true;
+        if(d * a < 0 or b * a < 0) {
+            return true;
+        }
     }
     return false;
 }
@@ -45,21 +44,25 @@ Trapezoid::Trapezoid(Point a, Point b, Point c, Point d) {
     _array[2] = c;
     _array[3] = d;
 
-    std::sort(_array, _array + 4);
-
     if(!trapezoid_check()) {
         throw std::logic_error("Invalid coords");
     }
+
+    _original_array = new Point[4];
+    _original_array[0] = a;
+    _original_array[1] = b;
+    _original_array[2] = c;
+    _original_array[3] = d;
+
+    std::sort(_array, _array + 4);
 }
 
 Trapezoid::Trapezoid(const Trapezoid& other) {
     _array = new Point[4];
+    _original_array = new Point[4];
     for(int i = 0; i < 4; ++i) {
         _array[i] = other._array[i];
-    }
-
-    if(!trapezoid_check()) {
-        throw std::logic_error("Invalid coords");
+        _original_array[i] = other._original_array[i];
     }
 }
 
@@ -74,18 +77,18 @@ Trapezoid::Trapezoid(double x1, double y1, double x2, double y2, double x3, doub
     _array[3].x = x4;
     _array[3].y = y4;
     
-    std::sort(_array, _array + 4);
-
     if(!trapezoid_check()) {
         throw std::logic_error("Invalid coords");
     }
-}
+    
+    _original_array = new Point[4];
+    _original_array[0] = _array[0];
+    _original_array[1] = _array[1];
+    _original_array[2] = _array[2];
+    _original_array[3] = _array[3];
 
-Trapezoid::Trapezoid(Trapezoid&& other) noexcept {
-    _array = other._array;
-    other._array = nullptr;
+    std::sort(_array, _array + 4);
 }
-
 
 Point Trapezoid::center() const {
     if(_array == nullptr) {

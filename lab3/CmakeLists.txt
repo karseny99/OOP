@@ -5,6 +5,8 @@ project(oop_lab_03)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# add_compile_options(-pedantic -Wall)
+
 # set(TEST_EXE tests/test.cpp)
 set(SOURCE_EXE src/main.cpp)
 set(SOURCE_LIB src/figure.cpp)

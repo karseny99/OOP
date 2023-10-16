@@ -14,24 +14,27 @@ class Rhombus : public Figure {
         Rhombus(Point a, Point b, Point c, Point d);
         Rhombus(const Rhombus& other);
         Rhombus(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4);
-        Rhombus(Rhombus&& other) noexcept;
         ~Rhombus() = default;
         operator double() const;
 
-        void operator=(Rhombus& r) {
+        void operator=(const Rhombus& r) {
             if(r._array == nullptr) {
-                if(_array == nullptr) {
+                if(_array != nullptr) {
                     delete[] _array;
+                    delete[] _original_array;
                 }
+                _original_array = nullptr;
                 _array = nullptr;
                 return;
             }
 
             if(_array == nullptr) {
+                _original_array = new Point[4];
                 _array = new Point[4];
             }
 
             for(int i = 0; i < 4; ++i) {
+                _original_array[i] = r._original_array[i];
                 _array[i] = r._array[i];
             }
             return;
@@ -44,6 +47,7 @@ class Rhombus : public Figure {
 
     private:
         Point * _array = nullptr;
+        Point * _original_array = nullptr;
 
         bool rhombus_check();
 };
@@ -57,10 +61,10 @@ inline std::istream& operator>>(std::istream& is, Rhombus& r) {
         r._array[2].x >> r._array[2].y >> r._array[3].x >> r._array[3].y;
 
 
-    std::sort(r._array, r._array + 4);
     if(!r.rhombus_check()) {
         throw std::logic_error("Invalid coords");
     }
+    std::sort(r._array, r._array + 4);
 
     return is;
 }   
@@ -72,7 +76,7 @@ inline std::ostream& operator<<(std::ostream& os, Rhombus& r) {
     }
     
     for(int i = 0; i < 4; ++i) {
-        os << "dot" << i + 1 << "[" << r._array[i].x << ", " << r._array[i].y << "]" << std:: endl;
+        os << "dot" << i + 1 << "[" << r._original_array[i].x << ", " << r._original_array[i].y << "]" << std:: endl;
     }
 
     return os;
