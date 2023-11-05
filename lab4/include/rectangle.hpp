@@ -18,7 +18,7 @@ class Rectangle : public Figure<T> {
         is >> r._array[0].x >> r._array[0].y >> r._array[1].x >> r._array[1].y >> \
             r._array[2].x >> r._array[2].y >> r._array[3].x >> r._array[3].y;
 
-        if(!r.Rectangle_check()) {
+        if(!r.rectangle_check()) {
             throw std::logic_error("Invalid coords");
         }
 
@@ -141,11 +141,11 @@ class Rectangle : public Figure<T> {
             return res;
         }
 
-        virtual T square() const final {
+        virtual double square() const final {
             if(_array == nullptr) return 0;
             Point<T> v1 = _array[1] - _array[0];
             Point<T> v2 = _array[2] - _array[0];
-            return v1.vector_length() * v2.vector_length();
+            return static_cast<double>(v1.vector_length() * v2.vector_length());
         }
 
     private:

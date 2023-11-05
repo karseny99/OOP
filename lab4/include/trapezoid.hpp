@@ -143,45 +143,54 @@ class Trapezoid : public Figure<T> {
             return center;
         }
 
-        virtual T square() const final {
+        virtual double square() const final {
 
-            if(_array == nullptr) {
+                if(_array == nullptr) {
+                    return 0;
+                }
+
+
+                Point<T> a, b, c, d, e, f;
+
+                a = (_array[1] - _array[0]);
+                c = (_array[3] - _array[2]);
+
+                b = (_array[2] - _array[1]);
+                d = (_array[3] - _array[0]);
+
+                e = (_array[3] - _array[1]);
+                f = (_array[2] - _array[0]);
+
+                double alen, blen, clen, dlen, elen, flen;
+
+                alen = static_cast<double>(a.vector_length());
+                blen = static_cast<double>(b.vector_length());
+                clen = static_cast<double>(c.vector_length());
+                dlen = static_cast<double>(d.vector_length());
+                elen = static_cast<double>(e.vector_length());
+                flen = static_cast<double>(f.vector_length());
+
+
+                if(a.x * c.y == a.y * c.x) {
+                    b = _array[3] - _array[1];
+                    d = _array[2] - _array[0];
+
+                    return (sq_formula(alen, clen, blen, dlen));
+
+                } else if(d.x * b.y == d.y * b.x) {
+                    a = _array[1] - _array[0];
+                    c = _array[3] - _array[2];
+
+                    return (sq_formula(blen, dlen, alen, clen));
+                
+                } else if(e.x * f.y == e.y * f.x) {
+                    a = _array[1] - _array[0];
+                    b = _array[3] - _array[2];
+
+                    return (sq_formula(elen, flen, alen, blen));
+                }
+
                 return 0;
-            }
-
-
-            Point<T> a, b, c, d, e, f;
-
-            a = (_array[1] - _array[0]);
-            c = (_array[3] - _array[2]);
-
-            b = (_array[2] - _array[1]);
-            d = (_array[3] - _array[0]);
-
-            e = (_array[3] - _array[1]);
-            f = (_array[2] - _array[0]);
-
-
-            if(a.x * c.y == a.y * c.x) {
-                b = _array[3] - _array[1];
-                d = _array[2] - _array[0];
-
-                return (sq_formula(a.vector_length(), c.vector_length(), b.vector_length(), d.vector_length()));
-
-            } else if(d.x * b.y == d.y * b.x) {
-                a = _array[1] - _array[0];
-                c = _array[3] - _array[2];
-
-                return (sq_formula(b.vector_length(), d.vector_length(), a.vector_length(), c.vector_length()));
-            
-            } else if(e.x * f.y == e.y * f.x) {
-                a = _array[1] - _array[0];
-                b = _array[3] - _array[2];
-
-                return (sq_formula(e.vector_length(), f.vector_length(), a.vector_length(), b.vector_length()));
-            }
-
-            return 0;
         }
 
     private:
@@ -189,11 +198,12 @@ class Trapezoid : public Figure<T> {
         Point<T> * _array = nullptr;
         Point<T> * _original_array = nullptr;
 
-        T sq_formula(T a, T b, T c, T d) const { // a || b
-            T s = (a + b) * (a + b) * (4 * c * c - (a - b) * (a - b));
+        double sq_formula(double a, double b, double c, double d) const { // a || b
+            double s = (a + b) * (a + b) * (4 * c * c - (a - b) * (a - b));
             // double s = (a + b) / 2 * sqrt(c * c - (((a - b) * (a - b) + c * c - d * d) / (2 * (a  - b))) * (((a - b) * (a - b) + c * c - d * d) / (2 * (a  - b))));
             return sqrt(s) / 4;
         }
+
 
         bool trapezoid_check() {
             Point<T> a, b, c, d;

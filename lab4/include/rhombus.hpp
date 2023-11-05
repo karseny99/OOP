@@ -146,12 +146,12 @@ class Rhombus : public Figure<T> {
             return center;
         }
 
-        virtual T square() const final {
+        virtual double square() const final {
             if(_array == nullptr) return 0;
             Point<T> diag1, diag2;
             diag1 = _array[3] - _array[0];
             diag2 = _array[2] - _array[1];
-            return diag1.vector_length() * diag2.vector_length() * .5;
+            return static_cast<double>(diag1.vector_length() * diag2.vector_length() * .5);
         }
 
         bool equal(const Rhombus<T>& other) const {

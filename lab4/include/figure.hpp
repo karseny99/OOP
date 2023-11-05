@@ -14,5 +14,5 @@ class Figure {
         ~Figure() = default;
 
         virtual Point<T> center() const = 0;
-        virtual T square() const = 0;
+        virtual double square() const = 0;
 };

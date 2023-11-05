@@ -12,25 +12,25 @@
 
 int main() {
 
-    Point a(123, 321);
-    std::cout << a << ' ' << typeid(a.x).name() << std::endl;
+    // Point a(123, 321);
+    // std::cout << a << ' ' << typeid(a.x).name() << std::endl;
 
-    Point<double> a1(0, 0);
-    Point<double> a2(0, 1);
-    Point<double> a3(1, 1);
-    Point<double> a4(1, 0);
-    Rectangle<double> rect(0, 0, 0, 1, 1, 1, 1, 0);
-    Point<double> c = rect.center();
-    std::cout << rect.square() << std::endl;
+    // Point<double> a1(0, 0);
+    // Point<double> a2(0, 1);
+    // Point<double> a3(1, 1);
+    // Point<double> a4(1, 0);
+    // Rectangle<double> rect(0, 0, 0, 1, 1, 1, 1, 0);
+    // Point<double> c = rect.center();
+    // std::cout << rect.square() << std::endl;
 
-    Rhombus<double> rhomb(a1, a2, a3, a4);
-    Point<double> rc = rhomb.center();
-    std::cout << rc << std::endl;
+    // Rhombus<double> rhomb(a1, a2, a3, a4);
+    // Point<double> rc = rhomb.center();
+    // std::cout << rc << std::endl;
 
-    Trapezoid<double> trap(0, 0, 3, 0, 2, 2, 1, 2);
-    Point<double> tc = trap.center();
-    double dbltc = trap;
-    std::cout << trap.square() << std::endl;
+    // Trapezoid<double> trap(0, 0, 3, 0, 2, 2, 1, 2);
+    // Point<double> tc = trap.center();
+    // double dbltc = trap;
+    // std::cout << trap.square() << std::endl;
 
     Array<std::shared_ptr<Figure<double>>> array{
         std::make_shared<Rhombus<double>>(0, 0, 0, 1, 1, 1, 1, 0),

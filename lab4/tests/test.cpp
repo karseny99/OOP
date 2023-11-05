@@ -5,18 +5,18 @@
 #include "../include/rhombus.hpp"
 #include "../include/point.hpp"
 #include <string>
-
+#include <memory>
 
 TEST(FigureTest, Point1) {
-    Point a;
-    Point b(1, 2);
+    Point<double> a;
+    Point<double> b(1, 2);
 
     ASSERT_TRUE((a + b) == b);
 }
 
 TEST(FigureTest, Point2) {
     Point a(3, 4);
-    ASSERT_EQ(vector_length(a) , 5);
+    ASSERT_EQ(a.vector_length() , 5);
 }
 
 TEST(FigureTest, Point3) {
@@ -27,58 +27,54 @@ TEST(FigureTest, Point3) {
 }
 
 TEST(FigureTest, Rectangle1) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
-    Point b(.5, .5);
+    Rectangle<double> a(0, 0, 0, 1, 1, 1, 1, 0);
+    Point<double> b(.5, .5);
     ASSERT_EQ(a.center(), b);
     ASSERT_EQ(a.square(), 1);
 }
 
 TEST(FigureTest, Rectangle2) {
-    Point a = {1, 1};
-    Point b = {1, 0};
-    Point c = {0, 1};
-    Point d = {0, 0};
-    Rectangle y(a, b, d, c);
-    Point g(.5, .5);
+    Point<double> a = {1, 1};
+    Point<double> b = {1, 0};
+    Point<double> c = {0, 1};
+    Point<double> d = {0, 0};
+    Rectangle<double> y(a, b, d, c);
+    Point<double> g(.5, .5);
 
     ASSERT_EQ(y.center(), g);
     ASSERT_EQ(y.square(), 1);
 }
 
 TEST(FigureTest, Rectangle3) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
-    Rectangle b(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> b(0, 0, 0, 1, 1, 1, 1, 0);
 
-    
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Rectangle4) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
-    Rectangle b;
+    Rectangle<double> a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<double> b;
     b = a;
    
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Rectangle5) {
-    
-    EXPECT_THROW(Rectangle a(1, 1, 0, 0, 0, 0, 1, 1), std::logic_error);
+    EXPECT_THROW(Rectangle<int> a(1, 1, 0, 0, 0, 0, 1, 1), std::logic_error);
 }
 
 TEST(FigureTest, Rectangle6) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
-    Rectangle b;
+    Rectangle<int> a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> b;
 
     std::cin >> b; // 1 1 0 0 0 1 1 0
-
-    
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Rectangle6InputFail) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
-    Rectangle b;
+    Rectangle<int> a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> b;
 
     EXPECT_THROW(std::cin >> b;, std::logic_error); // 0 0 0 1 1 1 1 0
 }
@@ -89,42 +85,41 @@ TEST(FigureTest, Rectangle7) {
 }
 
 TEST(FigureTest, Rectangle8) {
-    EXPECT_THROW(Rectangle f(1, 1, 1, 1, 1, 1, 1, 1), std::logic_error);
+    EXPECT_THROW(Rectangle<int> f(1, 1, 1, 1, 1, 1, 1, 1), std::logic_error);
 }
 
 TEST(FigureTest, Rectangle9) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> a(0, 0, 0, 1, 1, 1, 1, 0);
     double c = a;
     ASSERT_TRUE(c == 1);
 }
 
-
 TEST(FigureTest, Rectangle10) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
-    Rectangle b;
+    Rectangle<int> a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> b;
     b = a;
     double c = b;
     ASSERT_EQ(b, 1);
 }
 
 TEST(FigureTest, Rectangle11) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
-    Rectangle b;
+    Rectangle<int> a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> b;
     a = b;
     double c = a;
     ASSERT_EQ(a, 0);
 }
 
 TEST(FigureTest, Rectangle12) {
-    Rectangle a;
-    Rectangle b;
+    Rectangle<int> a;
+    Rectangle<int> b;
     a = b;
 
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Rhombus1) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
     Point center(0, 1);
 
     ASSERT_TRUE(center == a.center());
@@ -132,56 +127,54 @@ TEST(FigureTest, Rhombus1) {
 }
 
 TEST(FigureTest, Rhombus2) {
-    EXPECT_THROW(Rhombus a(1, 1, 0, 0, 0, 2, -1, 1), std::logic_error);
+    EXPECT_THROW(Rhombus<int> a(1, 1, 0, 0, 0, 2, -1, 1), std::logic_error);
 }
 
 TEST(FigureTest, Rhombus3) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
-    Rhombus b(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<double> b(0, 0, 1, 1, 0, 2, -1, 1);
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Rhombus3equal2) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
-    Rhombus b(1, 1, 0, 2, -1, 1, 0, 0);
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> b(1, 1, 0, 2, -1, 1, 0, 0);
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Rhombus4) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
-    Rhombus b;
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> b;
 
     ASSERT_FALSE(a == b);
 }
 
 TEST(FigureTest, Rhombus5) {
-    Rhombus a( 1, 1, 0, 2, -1, 1, 0, 0);
-    Rhombus b;
+    Rhombus<double> a( 1, 1, 0, 2, -1, 1, 0, 0);
+    Rhombus<int> b;
     
     std::cin >> b; // 0 0 1 1 0 2 -1 1
 
     ASSERT_TRUE(a == b);
-    // exit(0);
 }
 
 TEST(FigureTest, Rhombus5inputFail) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
-    Rhombus b;
+    Rhombus<double> a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<double> b;
     
      // 0 0 0 2 1 1 -1 1
     EXPECT_THROW(std::cin >> b;, std::logic_error);
-
 }
 
 TEST(FigureTest, Rhombus6) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
-    Rhombus b = a;
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> b = a;
 
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Rhombus7) {
-    EXPECT_THROW(Rhombus a(1, 2, 0, -5, 1, 1, -1, 1), std::logic_error);
+    EXPECT_THROW(Rhombus<int> a(1, 2, 0, -5, 1, 1, -1, 1), std::logic_error);
 }
 
 TEST(FigureTest, Rhombus8) {
@@ -190,31 +183,31 @@ TEST(FigureTest, Rhombus8) {
 }
 
 TEST(FigureTest, Rhombus9) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
     double b = a;
 
     ASSERT_EQ(b, 2);
 }
 
 TEST(FigureTest, Rhombus10) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
-    Rhombus b;
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> b;
     b = a;
     double c = b;
     ASSERT_EQ(b, 2);
 }
 
 TEST(FigureTest, Rhombus11) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
-    Rhombus b;
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> b;
     a = b;
     double c = a;
     ASSERT_EQ(a, 0);
 }
 
 TEST(FigureTest, Rhombus12) {
-    Rhombus a;
-    Rhombus b;
+    Rhombus<int> a;
+    Rhombus<int> b;
     a = b;
 
     ASSERT_TRUE(a == b);
@@ -240,18 +233,18 @@ TEST(FigureTest, Trapezoid3) {
 
 TEST(FigureTest, Trapezoid4) {
     Trapezoid a(0, 0, 3, 0, 2, 2, 1, 2);
-    Trapezoid b;
+    Trapezoid<int> b;
     std::cin >> b;
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, Trapezoid4InputFail) {
-    Trapezoid b;   
+    Trapezoid<double> b;   
     EXPECT_THROW(std::cin >> b, std::logic_error);
 }
 
 TEST(FigureTest, Trapezoid4InputFail2) {
-    Trapezoid b;   
+    Trapezoid<int> b;   
     EXPECT_THROW(std::cin >> b, std::logic_error);
 }
 
@@ -272,7 +265,7 @@ TEST(FigureTest, Trapezoid7) {
 
 TEST(FigureTest, Trapezoid8) {
     Trapezoid a(0, 0, 3, 0, 2, 2, 1, 2);
-    Trapezoid b;
+    Trapezoid<int> b;
     b = a;
     double c = b;
     ASSERT_EQ(b, 4);
@@ -280,74 +273,71 @@ TEST(FigureTest, Trapezoid8) {
 
 TEST(FigureTest, Trapezoid9) {
     Trapezoid a(0, 0, 3, 0, 2, 2, 1, 2);
-    Trapezoid b;
+    Trapezoid<int> b;
     a = b;
     double c = a;
     ASSERT_EQ(a, 0);
 }
 
 TEST(FigureTest, Trapezoid10) {
-    Trapezoid a;
-    Trapezoid b;
+    Trapezoid<int> a;
+    Trapezoid<int> b;
     a = b;
 
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, EmptyClass1) {
-    Rectangle a;
+    Rectangle<double> a;
     EXPECT_EQ(a.square(), 0);
 }
 
 TEST(FigureTest, EmptyClass2) {
-    Rectangle a;
+    Rectangle<int> a;
     EXPECT_THROW(a.center(), std::logic_error);
 }
 
 TEST(FigureTest, EmptyClass3) {
-    Rhombus a;
+    Rhombus<double> a;
     EXPECT_EQ(a.square(), 0);
-
 }
 
 TEST(FigureTest, EmptyClass4) {
-    Rhombus a;
+    Rhombus<int> a;
     EXPECT_THROW(a.center(), std::logic_error);
 }
 
 TEST(FigureTest, EmptyClass5) {
-    Trapezoid a;
+    Trapezoid<int> a;
     EXPECT_EQ(a.square(), 0);
-
 }
 
 TEST(FigureTest, EmptyClass6) {
-    Trapezoid a;
+    Trapezoid<int> a;
     EXPECT_THROW(a.center(), std::logic_error);
 }
 
 TEST(FigureTest, EmptyClass7) {
-    Trapezoid a;
-    Trapezoid b;
+    Trapezoid<int> a;
+    Trapezoid<double> b;
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, EmptyClass8) {
-    Rhombus a;
-    Rhombus b;
+    Rhombus<int> a;
+    Rhombus<double> b;
     ASSERT_TRUE(a == b);
 }
 
 TEST(FigureTest, EmptyClass9) {
-    Rectangle a;
-    Rectangle b;
+    Rectangle<int> a;
+    Rectangle<int> b;
     ASSERT_TRUE(a == b);
 }
 
 
-
 TEST(FigureTest, stdout1) {
-    Rectangle a(0, 0, 0, 1, 1, 1, 1, 0);
+    Rectangle<int> a(0, 0, 0, 1, 1, 1, 1, 0);
     testing::internal::CaptureStdout();
     std::cout << a;
     std::string output = testing::internal::GetCapturedStdout();
@@ -358,7 +348,7 @@ TEST(FigureTest, stdout1) {
 }
 
 TEST(FigureTest, stdout2) {
-    Trapezoid a(0, 0, 3, 0, 2, 2, 1, 2);
+    Trapezoid<double> a(0, 0, 3, 0, 2, 2, 1, 2);
     testing::internal::CaptureStdout();
     std::cout << a;
     std::string output = testing::internal::GetCapturedStdout();
@@ -369,7 +359,7 @@ TEST(FigureTest, stdout2) {
 }
 
 TEST(FigureTest, stdout3) {
-    Rhombus a(0, 0, 1, 1, 0, 2, -1, 1);
+    Rhombus<int> a(0, 0, 1, 1, 0, 2, -1, 1);
     testing::internal::CaptureStdout();
     std::cout << a;
     std::string output = testing::internal::GetCapturedStdout();
@@ -380,7 +370,7 @@ TEST(FigureTest, stdout3) {
 }
 
 TEST(FigureTest, stdout4) {
-    Rectangle a;
+    Rectangle<int> a;
     testing::internal::CaptureStdout();
     std::cout << a;
     std::string output = testing::internal::GetCapturedStdout();
@@ -390,7 +380,7 @@ TEST(FigureTest, stdout4) {
 }
 
 TEST(FigureTest, stdout5) {
-    Trapezoid a;
+    Trapezoid<int> a;
     testing::internal::CaptureStdout();
     std::cout << a;
     std::string output = testing::internal::GetCapturedStdout();
@@ -401,7 +391,7 @@ TEST(FigureTest, stdout5) {
 }
 
 TEST(FigureTest, stdout6) {
-    Rhombus a;
+    Rhombus<int> a;
     testing::internal::CaptureStdout();
     std::cout << a;
     std::string output = testing::internal::GetCapturedStdout();

@@ -4,7 +4,8 @@
 #include <math.h>
 
 template<typename T> 
-concept Number = std::is_default_constructible<T>::value || std::integral<T> || std::floating_point<T>;
+concept Number = std::is_same<T, int>::value || std::is_same<T, double>::value || std::is_same<T, float>::value;
+
 
 template<Number T> 
 class Point {
@@ -56,7 +57,7 @@ class Point {
         Point() = default;
         Point(const T& x, const T& y) : x(x), y(y) {};
 
-        T vector_length() const {
+        double vector_length() const {
             return sqrt(x * x + y * y);
         }
 
