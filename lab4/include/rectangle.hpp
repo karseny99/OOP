@@ -22,6 +22,12 @@ class Rectangle : public Figure<T> {
             throw std::logic_error("Invalid coords");
         }
 
+        r._original_array = new Point<T>[4];
+        r._original_array[0] = r._array[0];
+        r._original_array[1] = r._array[1];
+        r._original_array[2] = r._array[2];
+        r._original_array[3] = r._array[3];
+
         std::sort(r._array, r._array + 4);
         return is;
     }
@@ -147,6 +153,64 @@ class Rectangle : public Figure<T> {
             Point<T> v2 = _array[2] - _array[0];
             return static_cast<double>(v1.vector_length() * v2.vector_length());
         }
+
+        virtual void cinF() {
+            Point<T> a, b, c, d;
+            std::cin >> a >> b >> c >> d;
+            _array[0] = a;
+            _array[1] = b;
+            _array[2] = c;
+            _array[3] = d;
+
+            if(!rectangle_check()) {
+                throw std::logic_error("Wrong arguments");
+            }
+
+            _original_array = new Point<T>[4];
+            _original_array[0] = _array[0];
+            _original_array[1] = _array[1];
+            _original_array[2] = _array[2];
+            _original_array[3] = _array[3];
+
+            std::sort(_array, _array + 4);
+        }
+
+        virtual std::ostream& operator<<(std::ostream& os) const {
+            if(_array == nullptr) {
+                os << "Cannot display None-Figure" << std::endl;
+                return os;
+            }
+            std::cout << "Rectangle looks like this: " << std::endl;
+            for(int i = 0; i < 4; ++i) {
+                os << "dot" << i + 1 << "[" << _original_array[i].x << ", " << _original_array[i].y << "]" << std:: endl;
+            }
+            std::cout << std::endl;
+            return os;
+        }
+
+        virtual std::istream& operator>>(std::istream& is) {
+            if(_array == nullptr) {
+                _array = new Point<T>[4];
+            }
+            
+            is >> _array[0].x >> _array[0].y >> _array[1].x >> _array[1].y >> \
+                _array[2].x >> _array[2].y >> _array[3].x >> _array[3].y;
+
+
+            if(!rectangle_check()) {
+                throw std::logic_error("Invalid coords");
+            }
+
+            _original_array = new Point<T>[4];
+            _original_array[0] = _array[0];
+            _original_array[1] = _array[1];
+            _original_array[2] = _array[2];
+            _original_array[3] = _array[3];
+
+            std::sort(_array, _array + 4);
+            return is;
+        }
+
 
     private:
         Point<T> * _original_array = nullptr;

@@ -51,6 +51,11 @@ class Point {
         return os;
     }   
 
+    friend std::istream& operator>>(std::istream& is, Point<T>& p) {
+        is >> p.x >> p.y;
+        return is;
+    }
+
 
     public:
 

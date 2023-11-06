@@ -31,27 +31,35 @@ int main() {
     // Point<double> tc = trap.center();
     // double dbltc = trap;
     // std::cout << trap.square() << std::endl;
-
+    
     Array<std::shared_ptr<Figure<double>>> array{
-        std::make_shared<Rhombus<double>>(0, 0, 0, 1, 1, 1, 1, 0),
-        std::make_shared<Rectangle<double>>(0, 0, 0, 1, 1, 1, 1, 0),
-        std::make_shared<Trapezoid<double>>(0, 0, 3, 0, 2, 2, 1, 2)
+        std::make_shared<Rhombus<double>>(),
+        std::make_shared<Rectangle<double>>(),
+        std::make_shared<Trapezoid<double>>()
     };
 
     auto obj = std::make_shared<Trapezoid<double>>(0, 0, 3, 0, 2, 2, 1, 2);
-    std::cout << typeid(obj).name() << std::endl;
+    // std::cout << typeid(obj).name() << std::endl;
     // std::shared_ptr<Trapezoid<double>> trapez(0, 0, 3, 0, 2, 2, 1, 2);
+
+    for(int i = 0; i < array.size(); ++i) {
+        (*array[i]) >> std::cin;
+        (*array[i]) << std::cout;
+    }
+
     std::cout << array.get_square() << std::endl;
     array.pushBack(obj);
     
+    
+
     for(size_t i = 0; i < array.size(); ++i) 
-        std::cout << "Square of " << typeid(*array[i]).name() << ' ' << (*array[i]).square() << std::endl;
+        std::cout << "Square of " << typeid(*array[i]).name() << ' ' << array[i]->square() << std::endl;
     std::cout << array.get_square() << std::endl;
 
     array.delElem(0);
 
     for(size_t i = 0; i < array.size(); ++i) 
-        std::cout << "Square of " << typeid(*array[i]).name() << ' ' << (*array[i]).square() << std::endl;
+        std::cout << "Square of " << typeid(*array[i]).name() << ' ' << array[i]->square() << std::endl;
 
     std::cout << array.get_square() << std::endl;
 }
