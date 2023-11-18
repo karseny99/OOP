@@ -3,6 +3,7 @@
 #include <concepts>   
 #include <assert.h>
 #include <utility>
+#include <math.h>
 
 /*
     vec.push_back();
@@ -10,7 +11,7 @@
     vec.size();
 */
 
-#define Min_Cap 10
+#define Min_Cap 10UL
 template<typename T> 
 concept Number = std::is_same<T, int>::value || std::is_same<T, double>::value || std::is_same<T, float>::value;
 
@@ -32,21 +33,18 @@ class DynamicArray
             
             _head_idx = 0;
             _capacity *= 2;
-            // delete[] _array;
             _array = tmp;
         }
 
         void _decrease() {
-            auto tmp = std::shared_ptr<T[]>(new T[_capacity / 2]);
-
+            auto tmp = std::shared_ptr<T[]>(new T[std::min((_capacity / 2), Min_Cap)]);
 
             for(size_t i{0}; i < _size; ++i) {
                 tmp[i] = _array.get()[(i + _head_idx) % _capacity];
             }
 
             _head_idx = 0;
-            _capacity /= _capacity;
-            // delete[] _array;
+            _capacity = std::min((_capacity / 2), Min_Cap);
             _array = tmp;
         }
 
