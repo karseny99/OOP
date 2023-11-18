@@ -1,24 +1,67 @@
+#pragma once
 #include <iostream>
 #include <memory>
 #include <concepts>   
 #include <assert.h>
 #include <utility>
 #include <math.h>
+#include <stdexcept>
+#include "Allocator.hpp"
 
-/*
-    vec.push_back();
-    vec.pop_back();
-    vec.size();
-*/
+class OutOfBoundException
+{
+};
+
+template <class ItemType, class ArrayType>
+class ArrayIterator
+{
+private:
+    ArrayType *array;
+    size_t index;
+    size_t size;
+
+public:
+    ArrayIterator(ArrayType *value, size_t i, size_t s) : array(value), index(i), size(s){};
+
+    ItemType operator*()
+    {
+        if (index >= size)
+            throw OutOfBoundException();
+        return (*array)[index];
+    }
+
+    ItemType operator->()
+    {
+        if (index >= size)
+            throw OutOfBoundException();
+        return (*array)[index];
+    }
+
+    bool operator!=(ArrayIterator<ItemType, ArrayType> const &other) const
+    {
+        return (other.index != index) || (other.array != array);
+    }
+
+    ArrayIterator<ItemType, ArrayType> &operator++()
+    {
+        ++index;
+        return *this;
+    }
+};
+
+
+
 
 #define Min_Cap 10UL
 template<typename T> 
 concept Number = std::is_same<T, int>::value || std::is_same<T, double>::value || std::is_same<T, float>::value;
 
-template<Number T>
+template<Number T, class Allocator>
 class DynamicArray 
 {
     private:
+        // using allocator_type = typename Allocator::template rebind<DynamicArray<T, Args>>::other;
+
         size_t _size;
         size_t _capacity;
         size_t _head_idx;
@@ -131,4 +174,13 @@ class DynamicArray
             }
             --_size;
         }
+
+        ArrayIterator<T, DynamicArray<T, Allocator>> begin() {
+            return ArrayIterator<T, DynamicArray<T,Allocator>>(this, 0, _size);
+        }
+
+        ArrayIterator<T, DynamicArray<T,Allocator>> end() {
+            return ArrayIterator<T, DynamicArray<T,Allocator>>(this, _size, _size);
+        }
+
 };

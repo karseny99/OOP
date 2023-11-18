@@ -1,4 +1,4 @@
-
+#pragma once
 #include <iostream>
 #include <memory>
 #include <list>
@@ -54,7 +54,6 @@ class Allocator
 #endif
         }
 
-        // мы не используем параметр n - поэтому с std::vector данный аллокатор работать не будет
         T *allocate(const size_t& n)
         {
 
