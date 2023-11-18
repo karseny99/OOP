@@ -21,48 +21,47 @@ class DynamicArray
         size_t _size;
         size_t _capacity;
         size_t _head_idx;
-        // T* _array;
         std::shared_ptr<T[]> _array;
 
         void _increase() {
-            T* tmp = new T[_capacity * 2];
+            auto tmp = std::shared_ptr<T[]>(new T[_capacity * 2]);
 
             for(size_t i{0}; i < _size; ++i) {
-                tmp[i] = _array[(i + _head_idx) % _capacity];
+                tmp[i] = _array.get()[(i + _head_idx) % _capacity];
             }
             
             _head_idx = 0;
             _capacity *= 2;
-            delete[] _array;
+            // delete[] _array;
             _array = tmp;
         }
 
         void _decrease() {
-            T* tmp = new T[_capacity / 2];
+            auto tmp = std::shared_ptr<T[]>(new T[_capacity / 2]);
+
 
             for(size_t i{0}; i < _size; ++i) {
-                tmp[i] = _array[(i + _head_idx) % _capacity];
+                tmp[i] = _array.get()[(i + _head_idx) % _capacity];
             }
 
             _head_idx = 0;
             _capacity /= _capacity;
-            delete[] _array;
+            // delete[] _array;
             _array = tmp;
         }
 
     public: 
         DynamicArray() : _size(0), _capacity(Min_Cap), _head_idx(0) {
-            _array = new T[_capacity];
+            _array.reset(new T[_capacity]);
         }
         DynamicArray(size_t sz) : _size(sz) {
             _capacity = _size * 2;
             _head_idx = 0;
             _array.reset(new T[_capacity]);
-            // _array = new T[_capacity];
+
         }
 
         ~DynamicArray() {
-            delete[] _array;
             _size = 0;
             _capacity = 0;
             _head_idx = 0;
@@ -74,7 +73,7 @@ class DynamicArray
 
         T& operator[](const size_t index) {
             assert(index < _size);
-            return _array[(index + _head_idx) % _capacity];
+            return _array.get()[(index + _head_idx) % _capacity];
         }
 
         size_t size() const{
@@ -92,7 +91,7 @@ class DynamicArray
 
         void set_element(size_t index, const T& value) {
             assert(index < _size);
-            _array[(_head_idx + index) % _capacity];
+            _array[(_head_idx + index) % _capacity] = value;
         }
 
         void erase(size_t index) {
@@ -108,8 +107,8 @@ class DynamicArray
             } else if(index == (_head_idx + _size - 1) % _capacity) {
                 --_size;
             } else {
-                
-                T* tmp = new T[_capacity];
+
+                auto tmp = std::shared_ptr<T[]>(new T[_capacity]);
 
                 size_t k{0};
                 for(size_t i{0}; i < _size; ++i, ++k) {
@@ -118,12 +117,11 @@ class DynamicArray
                         continue;
                     } 
 
-                    tmp[k] = _array[(i + _head_idx) % _capacity];
+                    tmp[k] = _array.get()[(i + _head_idx) % _capacity];
                 }
 
                 --_size;
                 _head_idx = 0;
-                delete[] _array;
                 _array = tmp;
             }
 
