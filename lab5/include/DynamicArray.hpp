@@ -60,61 +60,28 @@ template<Number T, class Allocator>
 class DynamicArray 
 {
     private:
-        // using allocator_type = typename Allocator::template rebind<DynamicArray<T, Args>>::other;
+        using allocator_type = typename Allocator::template rebind<T>::other;
 
+        allocator_type _alloc_elem;
         size_t _size;
         size_t _capacity;
-        size_t _head_idx;
         std::shared_ptr<T[]> _array;
 
-        void _increase() {
-            auto tmp = std::shared_ptr<T[]>(new T[_capacity * 2]);
-
-            for(size_t i{0}; i < _size; ++i) {
-                tmp[i] = _array.get()[(i + _head_idx) % _capacity];
-            }
-            
-            _head_idx = 0;
-            _capacity *= 2;
-            _array = tmp;
-        }
-
-        void _decrease() {
-            auto tmp = std::shared_ptr<T[]>(new T[std::min((_capacity / 2), Min_Cap)]);
-
-            for(size_t i{0}; i < _size; ++i) {
-                tmp[i] = _array.get()[(i + _head_idx) % _capacity];
-            }
-
-            _head_idx = 0;
-            _capacity = std::min((_capacity / 2), Min_Cap);
-            _array = tmp;
-        }
-
     public: 
-        DynamicArray() : _size(0), _capacity(Min_Cap), _head_idx(0) {
-            _array.reset(new T[_capacity]);
-        }
-        DynamicArray(size_t sz) : _size(sz) {
-            _capacity = _size * 2;
-            _head_idx = 0;
-            _array.reset(new T[_capacity]);
-
+        DynamicArray() : _size(0), _capacity(Min_Cap) {
+            auto _tmp = std::shared_ptr<T[]>(_alloc_elem.allocate(_capacity));
+            _array = _tmp;
         }
 
-        ~DynamicArray() {
-            _size = 0;
-            _capacity = 0;
-            _head_idx = 0;
-
-#ifdef DEBUG
-            std::cout << "Memory freed" << std::endl;
-#endif
+        DynamicArray(size_t capacity) : _size(0), _capacity(capacity) {
+            auto _tmp = std::shared_ptr<T[]>(_alloc_elem.allocate(_capacity));
+            _array = _tmp;
         }
+
 
         T& operator[](const size_t index) {
             assert(index < _size);
-            return _array.get()[(index + _head_idx) % _capacity];
+            return _array.get()[index];
         }
 
         size_t size() const{
@@ -122,57 +89,22 @@ class DynamicArray
         }
 
         void push_back(T element) {
-            if(_size == _capacity - 1) {
-                _increase();
-            }
+            if(_size >= _capacity) 
+                _alloc_elem.allocate(1);
 
-            _array[(_size + _head_idx) % _capacity] = element;
-            ++_size;
+            _array[_size++] = element;
         }
 
         void set_element(size_t index, const T& value) {
             assert(index < _size);
-            _array[(_head_idx + index) % _capacity] = value;
-        }
-
-        void erase(size_t index) {
-            assert(index < _size);
-
-            if(_size * 4 <= _capacity) {
-                _decrease();
-            }
-
-            if(index == _head_idx) {
-                _head_idx = (_head_idx + 1) % _capacity;
-                --_size;
-            } else if(index == (_head_idx + _size - 1) % _capacity) {
-                --_size;
-            } else {
-
-                auto tmp = std::shared_ptr<T[]>(new T[_capacity]);
-
-                size_t k{0};
-                for(size_t i{0}; i < _size; ++i, ++k) {
-                    if(i == index) {
-                        --k;
-                        continue;
-                    } 
-
-                    tmp[k] = _array.get()[(i + _head_idx) % _capacity];
-                }
-
-                --_size;
-                _head_idx = 0;
-                _array = tmp;
-            }
-
+            _array[index] = value;
         }
 
         void pop_back() {
-            if(_size * 4 <= _capacity) {
-                _decrease();
-            }
-            --_size;
+            assert(_size > 0);
+            // T* val = ;
+            _alloc_elem.deallocate(&_array.get()[_size - 1], 0);
+            _capacity = _size = _size - 1;
         }
 
         ArrayIterator<T, DynamicArray<T, Allocator>> begin() {

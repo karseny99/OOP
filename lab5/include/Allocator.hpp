@@ -12,10 +12,9 @@ class Allocator
     private:
         T* _used_blocks;
         std::list<T*> _free_blocks;
-        // uint64_t _free_count;
+
 
     public:
-        // static constexpr size_t max_count = BLOCK_COUNT;
         using value_type = T;
         using pointer = T *;
         using const_pointer = const T *;
@@ -23,21 +22,12 @@ class Allocator
 
         Allocator()
         {
-            // static_assert(BLOCK_COUNT > 0);
-            // _used_blocks = (char *)malloc(sizeof(T) * max_count);
-            // _free_blocks = (void **)malloc(sizeof(void *) * max_count);
-
-            // _free_blocks.resize(max_count);
-
-            
-            // auto it_fb = std::begin(_free_blocks);
+            static_assert(BLOCK_COUNT > 0);
 
             _used_blocks = new T[BLOCK_COUNT];
-
             for (size_t i{0}; i < BLOCK_COUNT; ++i) { 
                 _free_blocks.push_back(&_used_blocks[i]);
             }
-            // _free_count = max_count;
         }
 
         ~Allocator()
@@ -48,7 +38,7 @@ class Allocator
             // _used_blocks.clear();
             // _free_blocks.clear();
 
-            delete[] _used_blocks;
+            // delete[] _used_blocks;
 #ifdef DEBUG
             std::cout << "Memory freed" << std::endl;
 #endif
@@ -66,19 +56,18 @@ class Allocator
                     _free_blocks.push_back(&_used_blocks[i]);
                 }
             }
-
-            if (_free_blocks.size() > 0)
+            if (_free_blocks.size() >= n)
             {
                 T* result = _free_blocks.front();
 
-#ifdef DEBUG
-                std::cout << "N is: " << n << " _free_blocks.size is: " << _free_blocks.size() << std::endl;
-#endif
 
-                for(size_t i{0}; i < n; ++i) {
+                for(size_t i {0}; i < n; ++i) {
                     _free_blocks.pop_front();
                 }
-                
+#ifdef DEBUG
+                std::cout << _free_blocks.size() <<  " Decreasing available memory"<< std::endl;
+#endif
+
                 return result;
             }
             else
@@ -89,10 +78,10 @@ class Allocator
 
         void deallocate(T *pointer, size_t)
         {
-            // auto it = std::next(std::begin(_free_blocks), _free_count);
-            // *it = pointer;
-            // ++_free_count;
-            // _free_blocks[_free_count++] = pointer;
+            _free_blocks.push_front(pointer);
+#ifdef DEBUG
+            std::cout << _free_blocks.size() << " Increasing available memory"<< std::endl;
+#endif
         }
 
 
@@ -109,6 +98,6 @@ class Allocator
 
         void destroy(pointer p)
         {
-            // p->~T();
+            p->~T();
         }
 };

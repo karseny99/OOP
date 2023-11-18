@@ -5,7 +5,7 @@ project(oop_lab_05)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_compile_options(-pedantic -Wall -g ) # -DDEBUG
+add_compile_options(-pedantic -Wall -g -DDEBUG) # -DDEBUG
 
 # set(TEST_EXE tests/test.cpp)
 set(SOURCE_EXE src/main.cpp)
