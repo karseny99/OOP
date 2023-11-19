@@ -119,7 +119,10 @@ class DynamicArray
 
 
         T& operator[](const size_t index) {
-            assert(index < _size);
+
+            if(index < 0 or index >= _size) {
+                throw OutOfBoundException();
+            }
             return _array[index];
         }
 
@@ -135,12 +138,16 @@ class DynamicArray
         }
 
         void set_element(size_t index, const T& value) {
-            assert(index < _size);
+            if(index < 0 or index >= _size) {
+                throw OutOfBoundException();
+            }
             _array[index] = value;
         }
 
         void pop_back() {
-            assert(_size > 0);
+            if(_size <= 0) {
+                throw OutOfBoundException();
+            }
             // T* val = ;
             _alloc_elem.deallocate(&_array[_size - 1], 0);
             _capacity = _size = _size - 1;

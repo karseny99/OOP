@@ -41,7 +41,6 @@ void fill_map<0>(std::map<int, int, std::less<int>, Allocator<std::pair<const in
 
 int main(int argc, char **argv)
 {   
-    // DynamicArray<int, std::less<int>, Allocator<int, 10>> myvec;
     DynamicArray<int, Allocator<int, 15>> myvec(10);
 
     for(size_t i{0}; i < 10; ++i) {
