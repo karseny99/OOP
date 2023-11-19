@@ -38,7 +38,7 @@ class Allocator
             // _used_blocks.clear();
             // _free_blocks.clear();
 
-            // delete[] _used_blocks;
+            delete[] _used_blocks;
 #ifdef DEBUG
             std::cout << "Memory freed" << std::endl;
 #endif

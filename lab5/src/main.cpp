@@ -40,7 +40,7 @@ void fill_map<0>(std::map<int, int, std::less<int>, Allocator<std::pair<const in
 
 
 int main(int argc, char **argv)
-{
+{   
     // DynamicArray<int, std::less<int>, Allocator<int, 10>> myvec;
     DynamicArray<int, Allocator<int, 15>> myvec(10);
 
@@ -62,15 +62,25 @@ int main(int argc, char **argv)
     // auto it1 = myvec.begin();
     // std::cout << *it1 << ' ' << '\n';
 
-    for(auto it = myvec.begin(); it != myvec.end(); ++it) {
+
+    for(auto it = myvec.cbegin(); it != myvec.cend(); ++it) {
         std::cout << *it << ' ';
     } 
+    std::cout << std::endl;
+    for(ArrayIterator<int, DynamicArray<int, Allocator<int, 15>>> it = myvec.begin(); it != myvec.end(); ++it) {
+        *it = 100;
+    } 
+    std::cout << std::endl;
+    for(auto it = myvec.cbegin(); it != myvec.cend(); ++it) {
+        std::cout << *it << ' ';
+    } 
+
+
 
     std::cout << '\n';
     std::cout << '\n';
     std::map<int, int, std::less<int>, Allocator<std::pair<const int,int>, 10>> my_map;
 
-    // std::cout << my_map.size() << std::endl;
 
     fill_map<9>(my_map);
 
