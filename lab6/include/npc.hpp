@@ -46,6 +46,12 @@ struct NPC : public std::enable_shared_from_this<NPC>
     virtual bool is_knight() const;
     virtual bool is_Elf() const ;
 
+    virtual bool accept(NPC& visitor) = 0;
+
+    virtual bool visit(Druid& druid) = 0;
+    virtual bool visit(Elf& elf) = 0;
+    virtual bool visit(Knight& knight) = 0;
+
     virtual bool fight(std::shared_ptr<Druid> other) = 0;
     virtual bool fight(std::shared_ptr<Knight> other) = 0;
     virtual bool fight(std::shared_ptr<Elf> other) = 0;

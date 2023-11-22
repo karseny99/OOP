@@ -17,8 +17,8 @@ bool Druid::is_Druid() const
 
 bool Druid::fight(std::shared_ptr<Druid> other) 
 {
-    fight_notify(other, false);
-    return false;
+    fight_notify(other, true);
+    return true;
 }
 
 bool Druid::fight(std::shared_ptr<Knight> other) 
@@ -41,6 +41,20 @@ void Druid::save(std::ostream &os)
 
 std::ostream &operator<<(std::ostream &os, Druid &Druid)
 {
-    os << "Druid: " << *static_cast<NPC *>(&Druid) << std::endl;
+    os << "druid: " << *static_cast<NPC *>(&Druid) << std::endl;
     return os;
+}
+
+bool Druid::visit(Druid& druid) {
+    return druid.fight(std::make_shared<Druid>(*this));
+}
+bool Druid::visit(Elf& elf) {
+    return elf.fight(std::make_shared<Druid>(*this));
+}
+bool Druid::visit(Knight& knight) {
+    return knight.fight(std::make_shared<Druid>(*this));
+}
+
+bool Druid::accept(NPC& visitor) {
+    return visitor.visit(*this);
 }

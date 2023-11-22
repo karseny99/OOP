@@ -27,20 +27,35 @@ bool Elf::fight(std::shared_ptr<Druid> other)
     return true;
 }
 
+bool Elf::fight(std::shared_ptr<Elf> other)
+{
+    fight_notify(other, false);
+    return false;
+}
+
 bool Elf::fight(std::shared_ptr<Knight> other)
 {
     fight_notify(other, true);
     return true;
 }
 
-bool Elf::fight(std::shared_ptr<Elf> other)
+std::ostream &operator<<(std::ostream &os, Elf &Elf)
 {
-    fight_notify(other, true);
-    return true;
+    os << "Elf: " << *static_cast<NPC *>(&Elf) << std::endl;
+    return os;
 }
 
-std::ostream &operator<<(std::ostream &os, Elf &knight)
-{
-    os << "black knight: " << *static_cast<NPC *>(&knight) << std::endl;
-    return os;
+
+bool Elf::visit(Druid& druid) {
+    return druid.fight(std::make_shared<Elf>(*this));
+}
+bool Elf::visit(Elf& elf) {
+    return elf.fight(std::make_shared<Elf>(*this));
+}
+bool Elf::visit(Knight& knight) {
+    return knight.fight(std::make_shared<Elf>(*this));
+}
+
+bool Elf::accept(NPC& visitor) {
+    return visitor.visit(*this);
 }

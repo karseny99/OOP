@@ -10,6 +10,12 @@ struct Elf : public NPC
     void save(std::ostream &os) override;
     bool is_Elf() const override;
 
+    bool visit(Druid& druid) override;
+    bool visit(Elf& elf) override;
+    bool visit(Knight& knight) override;
+
+    bool accept(NPC& visitor) override;
+
     bool fight(std::shared_ptr<Druid> other) override;
     bool fight(std::shared_ptr<Knight> other) override;
     bool fight(std::shared_ptr<Elf> other) override;

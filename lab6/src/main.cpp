@@ -133,13 +133,9 @@ set_t fight(const set_t &array, size_t distance)
         for (const auto &defender : array)
             if ((attacker != defender) && (attacker->is_close(defender, distance)))
             {
-                bool success{false};
-                if (defender->is_Druid())
-                    success = attacker->fight(std::dynamic_pointer_cast<Druid>(defender));
-                if (defender->is_knight())
-                    success = attacker->fight(std::dynamic_pointer_cast<Knight>(defender));
-                if (defender->is_Elf())
-                    success = attacker->fight(std::dynamic_pointer_cast<Elf>(defender));
+                
+                bool success = defender->accept(*attacker);
+
                 if (success)
                     dead_list.insert(defender);
             }
