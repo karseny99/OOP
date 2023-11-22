@@ -3,6 +3,8 @@
 #include "../include/knight.hpp"
 #include "../include/elf.hpp"
 
+#define LOG "log.txt"
+
 // Text Observer
 class TextObserver : public IFightObserver
 {
@@ -86,9 +88,10 @@ std::shared_ptr<NPC> factory(std::istream &is)
     else
         std::cerr << "unexpected NPC type:" << type << std::endl;
 
-    if (result)
-        result->subscribe(FileObserver::get("log.txt"));
-
+    if (result) {
+        result->subscribe(FileObserver::get(LOG));
+        result->subscribe(TextObserver::get());
+    }
     return result;
 }
 
@@ -109,8 +112,10 @@ std::shared_ptr<NPC> factory(NpcType type, int x, int y)
     default:
         break;
     }
-    if (result)
-        result->subscribe(FileObserver::get("log.txt"));
+    if (result) {
+        result->subscribe(FileObserver::get(LOG));
+        result->subscribe(TextObserver::get());
+    }
 
     return result;
 }
