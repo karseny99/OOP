@@ -6,7 +6,8 @@ struct Druid : public NPC
     Druid(int x, int y);
     Druid(std::istream &is);
 
-    void print() override;
+    void print(std::ostream& os) override;
+
 
     bool is_Druid() const override;
 

@@ -5,7 +5,7 @@ struct Knight : public NPC
 {
     Knight(int x, int y);
     Knight(std::istream &is);
-    void print() override;
+    void print(std::ostream& os) override;
     void save(std::ostream &os) override;
     bool is_knight() const override;
 

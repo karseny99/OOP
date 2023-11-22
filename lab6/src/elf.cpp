@@ -5,9 +5,9 @@
 Elf::Elf(int x, int y) : NPC(ElfType, x, y) {}
 Elf::Elf(std::istream &is) : NPC(ElfType, is) {}
 
-void Elf::print()
+void Elf::print(std::ostream& os)
 {
-    std::cout << *this;
+    os << *this;
 }
 
 void Elf::save(std::ostream &os)

@@ -5,9 +5,9 @@
 Druid::Druid(int x, int y) : NPC(DruidType, x, y) {}
 Druid::Druid(std::istream &is) : NPC(DruidType, is) {}
 
-void Druid::print()
+void Druid::print(std::ostream& os)
 {
-    std::cout << *this;
+    os << *this;
 }
 
 bool Druid::is_Druid() const 

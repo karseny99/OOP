@@ -5,9 +5,9 @@
 Knight::Knight(int x, int y) : NPC(KnightType, x, y) {}
 Knight::Knight(std::istream &is) : NPC(KnightType, is) {}
 
-void Knight::print()
+void Knight::print(std::ostream& os)
 {
-    std::cout << *this;
+    os << *this;
 }
 
 void Knight::save(std::ostream &os)

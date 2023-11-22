@@ -22,11 +22,46 @@ public:
         {
             std::cout << std::endl
                       << "Murder --------" << std::endl;
-            attacker->print();
-            defender->print();
+            attacker->print(std::cout);
+            defender->print(std::cout);
         }
     }
 };
+
+
+
+class FileObserver : public IFightObserver
+{
+private:
+    std::string filename;
+    std::ofstream fs;
+    FileObserver(std::string filename) : filename(filename) 
+    {
+        fs.open(filename);
+    };
+    ~FileObserver() {
+        fs.flush();
+        fs.close();
+    }
+public:
+    static std::shared_ptr<IFightObserver> get(std::string filename)
+    {
+        static FileObserver instance(filename);
+        return std::shared_ptr<IFightObserver>(&instance, [](IFightObserver *) {});
+    }
+
+    void on_fight(const std::shared_ptr<NPC> attacker, const std::shared_ptr<NPC> defender, bool win) {
+        if(win) 
+        {
+            fs << std::endl
+                      << "Murder --------" << std::endl;
+            attacker->print(fs);
+            defender->print(fs);
+            fs.flush();
+        }
+    }
+};
+
 
 // Фабрики -----------------------------------
 std::shared_ptr<NPC> factory(std::istream &is)
@@ -52,7 +87,7 @@ std::shared_ptr<NPC> factory(std::istream &is)
         std::cerr << "unexpected NPC type:" << type << std::endl;
 
     if (result)
-        result->subscribe(TextObserver::get());
+        result->subscribe(FileObserver::get("log.txt"));
 
     return result;
 }
@@ -75,7 +110,7 @@ std::shared_ptr<NPC> factory(NpcType type, int x, int y)
         break;
     }
     if (result)
-        result->subscribe(TextObserver::get());
+        result->subscribe(FileObserver::get("log.txt"));
 
     return result;
 }
@@ -112,7 +147,7 @@ set_t load(const std::string &filename)
 std::ostream &operator<<(std::ostream &os, const set_t &array)
 {
     for (auto &n : array)
-        n->print();
+        n->print(std::cout);
     return os;
 }
 
